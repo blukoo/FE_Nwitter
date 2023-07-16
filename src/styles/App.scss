@@ -1,0 +1,24 @@
+// @import "@/styles/utils.scss"; /*변수파일 import*/
+// @import "@/styles/Init.scss"; /* 초기화 */
+@import "@/styles/_fonts.scss";
+
+#root {
+  background-color: $main_blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "NotoSans-Regular";
+  color: blue;
+}
+#app_wrap {
+  width: 80vw;
+  height: 100vh;
+}
+
+#popup_root,
+#modal_root {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
