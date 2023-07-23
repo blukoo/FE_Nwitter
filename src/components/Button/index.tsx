@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
+import styled from "@/styles/components/Button/index.module.scss";
 function Button(props) {
   //props
   // onClick, style, children : 버튼 내용, isDebouncedButton : 디바운스 할 버튼인지
@@ -25,6 +26,7 @@ function Button(props) {
   return (
     <button
       ref={buttonRef}
+      className={styled.button}
       style={style}
       onClick={isDebouncedButton ? debounce(onClick, 500) : onClick}
     >
