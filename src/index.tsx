@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import NotFounds from "@/pages/NotFounds";
 import Home from "@/pages/Home";
+import Login from "@/pages/Login";
 import TempPage from "@/pages/TempPage";
 import TableTest from "@/pages/TableTest";
 import NeedLoginPage from "@/pages/NeedLoginPage";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <Home />
+      },
+      {
+        path: "login",
+        element: <Login />
       },
       {
         element: <TempPage />,
