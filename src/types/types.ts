@@ -7,10 +7,10 @@ export interface UnknownObj<T = any> {
 }
 //팝업이나 모달의 type
 export type ModalPopupStateType = {
-  type: string;
+  type?: string;
   content: string;
-  btnList: { word: string; func: Event | EnumType }[];
-  isOpen: boolean;
+  btnList: { word: string; func: Event | Function }[];
+  visible: boolean;
 };
 export type ColumnsType = {
   label: string | number;

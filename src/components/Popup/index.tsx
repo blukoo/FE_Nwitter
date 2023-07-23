@@ -9,14 +9,14 @@ export default function Popup() {
   const onClose = useCallback(
     () =>
       popupAction(e => {
-        return { ...e, isOpen: false };
+        return { ...e, visible: false };
       }),
     []
   );
 
   return (
     <>
-      {popupState.isOpen ? (
+      {popupState.visible ? (
         <div className={styles.popup_wrap}>
           <div className={styles.popup_inner_wrap}>
             <div className={styles.type_wrap}>
