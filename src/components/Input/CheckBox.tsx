@@ -15,7 +15,7 @@ export type propsType = {
   multi?: boolean;
 };
 
-const Input = forwardRef(
+const CheckBox = forwardRef(
   (props: propsType, ref: RefObject<HTMLInputElement>) => {
     //props
     const {
@@ -49,5 +49,5 @@ const Input = forwardRef(
     );
   }
 );
-Input.displayName = "Input";
-export default Input;
+CheckBox.displayName = "CheckBox";
+export default CheckBox;

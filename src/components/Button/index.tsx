@@ -26,7 +26,7 @@ function Button(props) {
     <button
       ref={buttonRef}
       style={style}
-      onClick={isDebouncedButton ? debounce(onClick, 3000) : onClick}
+      onClick={isDebouncedButton ? debounce(onClick, 500) : onClick}
     >
       {children}
     </button>

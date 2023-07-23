@@ -22,6 +22,7 @@ export default function Layout() {
             width: "100%",
             height: "100%",
             backgroundColor: "red",
+            color: "#fff",
             position: "fixed",
             left: 0,
             top: 0
@@ -29,15 +30,14 @@ export default function Layout() {
         >
           로딩중
         </div>
-      ) : (
-        <div onClick={setCurrentTarget} id="app_wrap">
-          <Header />
-          <div id="layout_content">
-            <Outlet />
-          </div>
-          <Footer />
+      ) : null}
+      <div onClick={setCurrentTarget} id="app_wrap">
+        <Header />
+        <div id="layout_content">
+          <Outlet />
         </div>
-      )}
+        <Footer />
+      </div>
     </>
   );
 }
