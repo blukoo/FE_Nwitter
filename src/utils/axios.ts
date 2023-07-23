@@ -1,16 +1,16 @@
-import type { UnknownObj } from '@/types/types';
-import axios from 'axios';
+import type { UnknownObj } from "@/types/types";
+import axios from "axios";
 
 const baseApiUrl = process.env.REACT_APP_API_BASE_URL;
 // 리소스 접근 허용
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 // 서로 다른 도메인간 쿠키 전달 허용
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Access-Control-Allow-Methods'] =
-  'GET, POST, PUT, DELETE, OPTIONS';
+axios.defaults.headers.common["Access-Control-Allow-Methods"] =
+  "GET, POST, PUT, DELETE, OPTIONS";
 
-axios.defaults.headers.common['Content-Type'] =
-  'application/x-www-form-urlencoded';
+axios.defaults.headers.common["Content-Type"] =
+  "application/x-www-form-urlencoded";
 const instance = axios.create({
   baseURL: baseApiUrl
 });
@@ -32,8 +32,8 @@ instance.interceptors.response.use(
 );
 const api = {
   get: async ({ url, query }: any) => {
-    console.log(process.env, 'process.env');
-    const method = 'get';
+    console.log(process.env, "process.env");
+    const method = "get";
     const params = query;
     const response = await instance({
       baseURL: baseApiUrl,

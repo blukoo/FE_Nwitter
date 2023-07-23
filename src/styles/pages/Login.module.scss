@@ -1,0 +1,24 @@
+.login_wrap {
+  border: 1px solid red;
+  display: flex;
+  .login_inner_wrap {
+    width: 100%;
+    .login_item {
+      width: 100%;
+      height: 7vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p {
+        flex: 1;
+      }
+      p {
+        text-align: center;
+        padding: 2vw;
+      }
+      p.login_value_item {
+        width: 70%;
+      }
+    }
+  }
+}
