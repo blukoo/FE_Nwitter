@@ -27,17 +27,11 @@ export default function Popup() {
             </div>
             <div className={styles.content_wrap}>{popupState.content}</div>
             <div className={styles.btn_list_wrap}>
-              {popupState.btnList?.map((item, idx) =>
-                item === BtnType.Close ? (
-                  <button onClick={onClose} key={idx}>
-                    취소
-                  </button>
-                ) : (
-                  <button onClick={item.func} key={idx}>
-                    {item.word}
-                  </button>
-                )
-              )}
+              {popupState.btnList.map((item, idx) => (
+                <button onClick={item.func} key={idx}>
+                  {item.word}
+                </button>
+              ))}
             </div>
           </div>
         </div>

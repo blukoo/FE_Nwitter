@@ -4,16 +4,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Popup } from "@/enum/Popup";
 export default function ProtectedRoute({ children }: { children }) {
-  const { setPopup, popupResult } = UseModalPopupContext();
+  const { setPopup, popupState } = UseModalPopupContext();
   const { isLogin } = useAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLogin) {
-      setPopup("로그인 부터 해주시기 바랍니다", [
-        {
-          [Popup.Confirm]: () => navigate("/")
-        }
-      ]);
+      setPopup("로그인 부터 해주시기 바랍니다", {
+        Confirm: () => navigate("/")
+      });
     }
   }, []);
   return children;
