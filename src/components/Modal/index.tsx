@@ -5,17 +5,17 @@ import { AiOutlineClose } from "react-icons/ai";
 
 export default function Modal(props) {
   const { id, children } = props;
-  const { modalState, modalAction } = UseModalPopupContext();
+  const { modalInfo, setModalInfo } = UseModalPopupContext();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    setVisible(e => modalState[id]["visible"]);
-  }, [modalState]);
+    setVisible(e => modalInfo[id]["visible"]);
+  }, [modalInfo]);
   useEffect(() => {
-    setVisible(e => modalState[id]["visible"]);
+    setVisible(e => modalInfo[id]["visible"]);
   }, [visible]);
   const onClose = useCallback(
     () =>
-      modalAction(e => {
+      setModalInfo(e => {
         e[id].visible = false;
         return { ...e };
       }),

@@ -5,10 +5,10 @@ import styles from "@/styles/components/ModalPopup/Popup.module.scss";
 import { AiOutlineClose } from "react-icons/ai";
 import { Popup as BtnType } from "@/enum/Popup";
 export default function Popup() {
-  const { popupState, popupAction } = UseModalPopupContext();
+  const { popupInfo, setPopupInfo } = UseModalPopupContext();
   const onClose = useCallback(
     () =>
-      popupAction(e => {
+      setPopupInfo(e => {
         return { ...e, visible: false };
       }),
     []
@@ -16,18 +16,18 @@ export default function Popup() {
 
   return (
     <>
-      {popupState.visible ? (
+      {popupInfo.visible ? (
         <div className={styles.popup_wrap}>
           <div className={styles.popup_inner_wrap}>
             <div className={styles.type_wrap}>
-              <div className={styles.type}>{popupState.type}</div>
+              <div className={styles.type}>{popupInfo.type}</div>
               {/* <p onClick={onClose}> 
               <AiOutlineClose /> 
               </p> */}
             </div>
-            <div className={styles.content_wrap}>{popupState.content}</div>
+            <div className={styles.content_wrap}>{popupInfo.content}</div>
             <div className={styles.btn_list_wrap}>
-              {popupState.btnList.map((item, idx) => (
+              {popupInfo.btnList.map((item, idx) => (
                 <button onClick={item.func} key={idx}>
                   {item.word}
                 </button>

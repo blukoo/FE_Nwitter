@@ -3,21 +3,21 @@ import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 
 export default function useModal() {
   const id = useId();
-  const { modalState, modalAction } = UseModalPopupContext();
+  const { modalInfo, setModalInfo } = UseModalPopupContext();
   useEffect(() => {
-    modalAction(e => {
+    setModalInfo(e => {
       e[id] = { visible: false };
       return e;
     });
   }, []);
   const showModal = () => {
-    modalAction(e => {
+    setModalInfo(e => {
       e[id].visible = true;
       return { ...e };
     });
   };
   const closeModal = () => {
-    modalAction(e => {
+    setModalInfo(e => {
       e[id].visible = false;
       return { ...e };
     });

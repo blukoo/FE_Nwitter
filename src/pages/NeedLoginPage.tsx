@@ -7,11 +7,11 @@ import Modal from "@/components/Modal";
 import useModal from "@/hooks/useModal";
 import { Link } from "react-router-dom";
 export default function NeedLoginPage() {
-  const { popupState, popupAction } = UseModalPopupContext();
+  const { setPopupInfo } = UseModalPopupContext();
   const { id, showModal, closeModal } = useModal();
   const { id: other_id, showModal: other_showModal } = useModal();
   const setButton = () => {
-    popupAction(e => {
+    setPopupInfo(e => {
       return {
         ...e,
         visible: true,
@@ -26,7 +26,7 @@ export default function NeedLoginPage() {
           {
             word: "취소",
             func: () => {
-              popupAction(e => {
+              setPopupInfo(e => {
                 return { ...e, visible: false };
               });
             }

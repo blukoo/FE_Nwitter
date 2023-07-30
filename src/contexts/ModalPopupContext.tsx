@@ -13,7 +13,7 @@ export function ModalPopupContextProvider({ children }) {
   const [popupResult, setPopupResult] = useState<Popup>(Popup.Close);
   const [modalInfo, setModalInfo] = useState<any>({});
   type t = "Confirm" | "Close" | "Cancel";
-  function SetPopup(
+  function setPopup(
     content: string,
     popupType: { [key in Popup]?: any } = {
       Confirm: () => {}
@@ -69,12 +69,12 @@ export function ModalPopupContextProvider({ children }) {
     <ModalPopupContext.Provider
       // @ts-ignore
       value={{
-        popupState: popupInfo,
-        popupAction: setPopupInfo,
-        popupResult: popupResult,
-        setPopup: SetPopup,
-        modalState: modalInfo,
-        modalAction: setModalInfo
+        popupInfo,
+        setPopupInfo,
+        setPopup, //팝업 쉽게 세팅하게 하는 함수
+        popupResult,
+        modalInfo,
+        setModalInfo
       }}
     >
       {children}
