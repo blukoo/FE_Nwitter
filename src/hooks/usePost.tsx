@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 export default function usePost({
   queryKey,
-  queryFn,
+  queryFn
 }: {
   queryKey: string[];
   queryFn: Function;
@@ -11,23 +11,38 @@ export default function usePost({
   const queryClient = useQueryClient();
   const { action } = UseMutateContext();
 
-  const mutate = useMutation(
+  return useMutation(
     async (query: any) => {
-      action.action((e) => {
+      console.log(query, "@@@");
+      action.action(e => {
         e.isLoading = true;
         return { ...e };
       });
-      await queryFn(query);
+      let res = await queryFn(query);
+      return res;
     },
     {
-      onSuccess: async () => {
-        action.action((e) => {
+      onSuccess: async (res, a, d) => {
+        action.action(e => {
           e.isLoading = false;
+          e.data = res.data;
           return { ...e };
         });
+        console.log(res, a, d, "데잍터");
         await queryClient.invalidateQueries(queryKey);
+        return res.data;
       },
+      onError: async (res, a, d) => {
+        action.action(e => {
+          e.isLoading = false;
+          e.data = res;
+          return { ...e };
+        });
+        console.log(res, a, d, "데잍터");
+        await queryClient.invalidateQueries(queryKey);
+        return res;
+      }
     }
   );
-  return { mutate };
+  // return { mutate, data };
 }
