@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 const UtilsContext = createContext(null);
 
 export default function UtilsContextProvider({ children }) {

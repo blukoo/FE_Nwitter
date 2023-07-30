@@ -5,19 +5,19 @@ export default function useModal() {
   const id = useId();
   const { modalState, modalAction } = UseModalPopupContext();
   useEffect(() => {
-    modalAction((e) => {
+    modalAction(e => {
       e[id] = { visible: false };
       return e;
     });
   }, []);
   const showModal = () => {
-    modalAction((e) => {
+    modalAction(e => {
       e[id].visible = true;
       return { ...e };
     });
   };
   const closeModal = () => {
-    modalAction((e) => {
+    modalAction(e => {
       e[id].visible = false;
       return { ...e };
     });

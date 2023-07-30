@@ -10,24 +10,24 @@ import {
 } from "react-router-dom";
 import NotFounds from "@/pages/NotFounds";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import TempPage from "@/pages/TempPage";
-import TableTest from "@/pages/TableTest";
-import NeedLoginPage from "@/pages/NeedLoginPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import TableComponentTest from "./pages/TableComponentTest";
+// import Home from "@/pages/Home";
+// import TempPage from "@/pages/TempPage";
+// import TableTest from "@/pages/TableTest";
+// import NeedHomePage from "@/pages/NeedHomePage";
+// import ProtectedRoute from "./components/ProtectedRoute";
+// import TableComponentTest from "./pages/TableComponentTest";
 
 //description
 
-import Button from "@/description/Button/";
-import Input from "@/description/Input";
-import StatusInput from "@/description/Input/StatusInput";
-import Modal from "@/description/Modal";
-import Popup from "@/description/Popup";
-import Table from "@/description/Table";
-import FixedComponent from "@/description/FixedComponent";
-import ProtectedRouteDes from "@/description/ProtectedRoute";
-import CustomCheckBoxArea from "@/description/CustomCheckBox/index";
+// import Button from "@/description/Button/";
+// import Input from "@/description/Input";
+// import StatusInput from "@/description/Input/StatusInput";
+// import Modal from "@/description/Modal";
+// import Popup from "@/description/Popup";
+// import Table from "@/description/Table";
+// import FixedComponent from "@/description/FixedComponent";
+// import ProtectedRouteDes from "@/description/ProtectedRoute";
+// import CustomCheckBoxArea from "@/description/CustomCheckBox/index";
 const router = createBrowserRouter([
   {
     index: true, // <-- match on parent, i.e. "/"
@@ -41,81 +41,86 @@ const router = createBrowserRouter([
     children: [
       {
         path: "home",
+        // element: <Home />
         element: <Home />
       },
       {
         path: "login",
-        element: <Login />
+        element: <Home />
       },
       {
-        element: <TempPage />,
+        // element: <TempPage />,
+        element: <Home />,
         path: "temp"
       },
       {
-        element: <TableTest />,
+        // element: <TableTest />,
+        element: <Home />,
         path: "TableTest"
       },
       {
-        element: <TableComponentTest />,
+        // element: <TableComponentTest />,
+
+        element: <Home />,
         path: "TableComponentTest"
       },
       {
-        element: (
-          <ProtectedRoute>
-            <NeedLoginPage />
-          </ProtectedRoute>
-        ),
-        path: "needLogin"
+        // element: (
+        // <ProtectedRoute>
+        // <NeedHomePage />
+        // </ProtectedRoute>
+        // ),
+        path: "needHome"
       },
       {
         element: <NotFounds />,
         path: "*"
       }
     ]
-  },
-  {
-    path: "/demo",
-    element: <App></App>,
-    errorElement: <NotFounds />,
-    children: [
-      {
-        path: "Button",
-        element: <Button />
-      },
-      {
-        path: "Input",
-        element: <Input />
-      },
-      {
-        path: "StatusInput",
-        element: <StatusInput />
-      },
-      {
-        path: "Modal",
-        element: <Modal />
-      },
-      {
-        path: "Popup",
-        element: <Popup />
-      },
-      {
-        path: "Table",
-        element: <Table />
-      },
-      {
-        path: "CustomCheckBoxArea",
-        element: <CustomCheckBoxArea />
-      },
-      {
-        path: "Protect",
-        element: <ProtectedRouteDes />
-      },
-      {
-        path: "FixedComponent",
-        element: <FixedComponent />
-      }
-    ]
   }
+  // {
+  //   path: "/demo",
+  //   element: <App></App>,
+  //   errorElement: <NotFounds />,
+  //   children: [
+  //     {
+  //       path: "Button",
+  //       element: <Button />
+  //     },
+  //     {
+  //       path: "Input",
+  //       element: <Input />
+  //     },
+  //     {
+  //       path: "StatusInput",
+  //       element: <StatusInput />
+  //     },
+  //     {
+  //       path: "Modal",
+  //       element: <Modal />
+  //     },
+  //     {
+  //       path: "Popup",
+  //       element: <Popup />
+  //     },
+  //     {
+  //       path: "Table",
+  //       element: <Table />
+  //     },
+  //     {
+  //       path: "CustomCheckBoxArea",
+  //       element: <CustomCheckBoxArea />
+  //     },
+  //     {
+  //       path: "Protect",
+  //       element: <ProtectedRouteDes />
+  //     },
+  //     {
+  //       path: "FixedComponent",
+  //       element: <FixedComponent />
+  //     }
+  //   ]
+  // }
 ]);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -4,7 +4,7 @@ const MutateContext = createContext(null);
 export function MutateContextProvider({ children }) {
   const [state, action] = useState({
     isLoading: false,
-    isError: false,
+    isError: false
   });
   return (
     <>
