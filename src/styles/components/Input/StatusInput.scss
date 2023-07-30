@@ -1,0 +1,21 @@
+@import "@/styles/components/Input/index.scss"; /*변수파일 import*/
+.status_input_wrap {
+  width: 100%;
+  position: relative;
+}
+.clear_value {
+  width: 10%;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+
+input:focus {
+  &.fail {
+    outline: 5px solid red;
+  }
+  &.success {
+    outline: 5px solid blue;
+  }
+}

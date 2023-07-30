@@ -1,0 +1,27 @@
+// @import "@/styles/components/CustomCheckBox";
+//@import "@/styles/_utils.scss"; //*변수파일 import*/
+@include mobile {
+  input {
+    width: 100%;
+    background-color: $main_blue;
+  }
+}
+@include tablet {
+  input {
+    width: 100%;
+    // background-color: $green;
+  }
+}
+
+@include desktop {
+  input {
+    width: 100%;
+    background-color: $main_ivory;
+  }
+}
+.input_wrap {
+  display: flex;
+}
+input {
+  box-sizing: border-box;
+}

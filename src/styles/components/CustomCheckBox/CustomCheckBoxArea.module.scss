@@ -1,0 +1,10 @@
+.custom_checkBox_wrap {
+  border: 2px solid red;
+  background-color: black;
+  border-radius: 10px;
+  padding: 3vh 3vw;
+  .custom_checkBox_inner_wrap {
+    display: flex;
+    gap: 1rem;
+  }
+}

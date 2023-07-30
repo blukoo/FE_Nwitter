@@ -1,0 +1,20 @@
+.custom_checkBox_wrap {
+  border-radius: 10px;
+
+  input {
+    display: none;
+  }
+  label {
+    padding: 0.3vh 0.7vw;
+    line-height: 0.3vh;
+    text-align: center;
+    border-radius: 2rem;
+    color: #fff;
+  }
+  &:has(input:checked) label {
+    background-color: rgba(0, 0, 200, 1);
+  }
+  &:has(input:not(:checked)) label {
+    background-color: rgba(0, 200, 0, 1);
+  }
+}
