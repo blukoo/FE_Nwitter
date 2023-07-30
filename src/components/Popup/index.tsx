@@ -21,9 +21,9 @@ export default function Popup() {
           <div className={styles.popup_inner_wrap}>
             <div className={styles.type_wrap}>
               <div className={styles.type}>{popupState.type}</div>
-              <p onClick={onClose}>
-                <AiOutlineClose />
-              </p>
+              {/* <p onClick={onClose}> 
+              <AiOutlineClose /> 
+              </p> */}
             </div>
             <div className={styles.content_wrap}>{popupState.content}</div>
             <div className={styles.btn_list_wrap}>

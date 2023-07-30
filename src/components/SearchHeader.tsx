@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function SearchHeader() {
   const [text, setText] = useState("");
   const navigte = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     navigte("/");
   };
@@ -22,7 +22,7 @@ export default function SearchHeader() {
             type="text"
             placeholder="search..."
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={e => setText(e.target.value)}
           />
         </form>
         <button>

@@ -12,48 +12,50 @@ export function ModalPopupContextProvider({ children }) {
   });
   const [popupResult, setPopupResult] = useState<Popup>(Popup.Close);
   const [modalInfo, setModalInfo] = useState<any>({});
-
+  type t = "Confirm" | "Close" | "Cancel";
   function SetPopup(
     content: string,
-    popupType: { [key in Popup]: Function }[]
+    popupType: { [key in Popup]?: any } = {
+      Confirm: () => {}
+    }
   ) {
-    let btnList: { word: string; func: Event | Function }[] = popupType.map(
-      item => {
-        let btnType = Object.keys(item)[0];
-        let btnFunc = Object.values(item)[0];
-        if (btnType === Popup.Confirm) {
-          return {
-            word: "확인",
-            func: async () => {
-              setPopupInfo(e => {
-                return { ...e, visible: false };
-              });
-              await btnFunc();
-            }
-          };
-        } else if (btnType === Popup.Close) {
-          return {
-            word: "닫기",
-            func: async () => {
-              setPopupInfo(e => {
-                return { ...e, visible: false };
-              });
-              await btnFunc();
-            }
-          };
-        } else if (btnType === Popup.Cancel) {
-          return {
-            word: "취소",
-            func: async () => {
-              setPopupInfo(e => {
-                return { ...e, visible: false };
-              });
-              await btnFunc();
-            }
-          };
-        }
+    let btnList: { word: string; func: Event | Function }[] = Object.entries(
+      popupType
+    ).map(item => {
+      let btnType = item[0];
+      let btnFunc = item[1];
+      if (btnType === Popup.Confirm) {
+        return {
+          word: "확인",
+          func: async () => {
+            setPopupInfo(e => {
+              return { ...e, visible: false };
+            });
+            await btnFunc();
+          }
+        };
+      } else if (btnType === Popup.Close) {
+        return {
+          word: "닫기",
+          func: async () => {
+            setPopupInfo(e => {
+              return { ...e, visible: false };
+            });
+            await btnFunc();
+          }
+        };
+      } else if (btnType === Popup.Cancel) {
+        return {
+          word: "취소",
+          func: async () => {
+            setPopupInfo(e => {
+              return { ...e, visible: false };
+            });
+            await btnFunc();
+          }
+        };
       }
-    );
+    });
     setPopupInfo((e: ModalPopupStateType) => {
       return {
         ...e,
