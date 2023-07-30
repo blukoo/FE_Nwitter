@@ -10,12 +10,12 @@ import {
 } from "react-router-dom";
 import NotFounds from "@/pages/NotFounds";
 import Home from "@/pages/Home";
-// import Home from "@/pages/Home";
-// import TempPage from "@/pages/TempPage";
-// import TableTest from "@/pages/TableTest";
-// import NeedHomePage from "@/pages/NeedHomePage";
-// import ProtectedRoute from "./components/ProtectedRoute";
-// import TableComponentTest from "./pages/TableComponentTest";
+import Login from "./pages/Login";
+import TempPage from "@/pages/TempPage";
+import TableTest from "@/pages/TableTest";
+import ProtectedRoute from "./components/ProtectedRoute";
+import TableComponentTest from "./pages/TableComponentTest";
+import NeedLoginPage from "./pages/NeedLoginPage";
 
 //description
 
@@ -40,37 +40,32 @@ const router = createBrowserRouter([
     errorElement: <NotFounds />,
     children: [
       {
-        path: "home",
-        // element: <Home />
-        element: <Home />
-      },
-      {
-        path: "login",
-        element: <Home />
-      },
-      {
-        // element: <TempPage />,
         element: <Home />,
+        path: "home"
+      },
+      {
+        element: <Login />,
+        path: "login"
+      },
+      {
+        element: <TempPage />,
         path: "temp"
       },
       {
-        // element: <TableTest />,
-        element: <Home />,
+        element: <TableTest />,
         path: "TableTest"
       },
       {
-        // element: <TableComponentTest />,
-
-        element: <Home />,
+        element: <TableComponentTest />,
         path: "TableComponentTest"
       },
       {
-        // element: (
-        // <ProtectedRoute>
-        // <NeedHomePage />
-        // </ProtectedRoute>
-        // ),
-        path: "needHome"
+        element: (
+          <ProtectedRoute>
+            <NeedLoginPage />
+          </ProtectedRoute>
+        ),
+        path: "needLogin"
       },
       {
         element: <NotFounds />,

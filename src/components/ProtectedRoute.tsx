@@ -1,11 +1,11 @@
-import { useAuthContext, AuthContextProvider } from "@/contexts/AuthContext";
+import { UseAuthContext, AuthContextProvider } from "@/contexts/AuthContext";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Popup } from "@/enum/Popup";
 export default function ProtectedRoute({ children }: { children }) {
   const { setPopup, popupState } = UseModalPopupContext();
-  const { isLogin } = useAuthContext();
+  const { isLogin } = UseAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLogin) {

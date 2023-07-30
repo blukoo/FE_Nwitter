@@ -1,11 +1,11 @@
 import Button from "@/components/Button";
 import StatusInput from "@/components/Input/StatusInput";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { UseAuthContext } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 
 export default function HeaderLogin({ setIsOpen }) {
   //hook
-  const { userInfo, setUserInfo, isLogin, setIsLogin } = useAuthContext(); // 회원정보
+  const { userInfo, setUserInfo, isLogin, setIsLogin } = UseAuthContext(); // 회원정보
   //useState
   const [user, setUser] = useState({ name: "", password: "" });
   //useEffect

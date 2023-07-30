@@ -1,19 +1,40 @@
-import { Dispatch, createContext, useContext, useState } from "react";
+import { UserInfoType } from "@/types/types";
+import {
+  Dispatch,
+  createContext,
+  useCallback,
+  useContext,
+  useState
+} from "react";
 interface AuthType {
-  userInfo: { name: string; password: string };
+  userInfo: UserInfoType;
   setUserInfo: Dispatch<any>;
   isLogin: boolean;
   setIsLogin: Dispatch<any>;
 }
 const AuthContext = createContext<AuthType>({
-  userInfo: { name: "", password: "" }, //화원정보
+  userInfo: {
+    userId: "",
+    password: "",
+    name: "",
+    url: "",
+    email: ""
+  }, //화원정보
   setUserInfo: () => {},
   isLogin: false, //로딩 여부
   setIsLogin: () => {}
 });
 
 export function AuthContextProvider({ children }: any) {
-  const [user, setUser] = useState<any>({ name: "", password: "" });
+  const [user, setUser] = useState<any>(
+    {
+      userId: "",
+      password: "",
+      name: "",
+      url: "",
+      email: ""
+    } //화원정보
+  );
   const [login, setLogin] = useState<boolean>(false);
   return (
     // @ts-ignore
@@ -30,6 +51,6 @@ export function AuthContextProvider({ children }: any) {
   );
 }
 
-export function useAuthContext() {
+export function UseAuthContext() {
   return useContext(AuthContext);
 }

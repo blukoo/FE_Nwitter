@@ -18,3 +18,10 @@ export type ColumnsType = {
   style?: CSSProperties;
   width: string | number;
 };
+export type UserInfoType = {
+  userId: string;
+  password: string;
+  name: string;
+  url: string;
+  email: string;
+};

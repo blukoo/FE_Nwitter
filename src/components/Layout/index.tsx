@@ -4,14 +4,26 @@ import Footer from "./Footer";
 import { UseUtilsContext } from "@/contexts/UtilsContext";
 import { UseMutateContext } from "@/contexts/MutateContext";
 import "@/styles/Layout/index.scss";
+import { useEffect } from "react";
+import { UseAuthContext } from "@/contexts/AuthContext";
 export default function Layout() {
   const { action } = UseUtilsContext();
   const { state: mutateState, action: mutateAction } = UseMutateContext();
+  const { setIsLogin } = UseAuthContext();
 
   const setCurrentTarget = $event => {
     console.log($event.target, "target");
     action.setTarget($event.target);
   };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLogin(true);
+    } else if (sessionStorage.getItem("token")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [localStorage.getItem("token"), sessionStorage.getItem("token")]);
   return (
     <>
       {/* get은 suspense로 확인가능 */}
