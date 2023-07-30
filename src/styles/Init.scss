@@ -122,7 +122,8 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-input {
+input,
+button {
   outline: none;
 }
 /* a-style */
@@ -135,4 +136,7 @@ a:hover,
 a:active {
   text-decoration: none;
   color: #000;
+}
+button {
+  border: none;
 }
