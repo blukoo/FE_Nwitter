@@ -3,13 +3,14 @@ import styled from "@/styles/pages/Login.module.scss";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import CheckBox from "@/components/Input/CheckBox";
-import { loginApi } from "@/services/pages/Login";
+import { kakaoLoginApi, loginApi } from "@/services/pages/Login";
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import { UseAuthContext } from "@/contexts/AuthContext";
 import { Popup } from "@/enum/Popup";
 import { useNavigate } from "react-router-dom";
 import useLogin from "@/hooks/useLogin";
+import KakaoLoginButton from "@/components/Button/KakaoLoginButton";
 export default function Login() {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -21,6 +22,10 @@ export default function Login() {
   const { mutateAsync: loginMutate, data: loginRes } = usePost({
     queryKey: ["login"],
     queryFn: loginApi
+  });
+  const { mutateAsync: kakaoLoginMutate, data: kakaoLoginRes } = usePost({
+    queryKey: ["kakaoLoginApi"],
+    queryFn: kakaoLoginApi
   });
   const { setLogin } = useLogin({
     setIsLogin,
@@ -59,6 +64,36 @@ export default function Login() {
       setLogin(res, isAutoLogin)
     );
   };
+  useEffect(() => {
+    const params = new URL(document.location.toString()).searchParams;
+    if (!params.size) return;
+
+    const code = params.get("code");
+    const kakaoKey = process.env.REACT_APP_KAKAO_KEY; //REST API KEY
+    const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URL; //Redirect URI
+    fetch(`https://kauth.kakao.com/oauth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+      },
+      body: `grant_type=authorization_code&client_id=${kakaoKey}&redirect_uri=${redirectUri}&code=${code}`
+    })
+      .then(res => res.json())
+      .then(async data => {
+        return await fetch("https://kapi.kakao.com/v2/user/me", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + data.access_token,
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+          }
+        });
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res, "sexsex");
+        return res;
+      });
+  }, [new URL(document.location.toString()).searchParams.size]);
   return (
     <div>
       <div className={styled.login_wrap}>
@@ -79,6 +114,7 @@ export default function Login() {
           <li className={styled.login_item}>
             <p className={styled.login_value_item}>
               <Button onClick={onLogin}>로그인</Button>
+              <KakaoLoginButton></KakaoLoginButton>
             </p>
           </li>
           <li className={styled.login_item}>
