@@ -3,7 +3,12 @@ import styled from "@/styles/pages/Login.module.scss";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import CheckBox from "@/components/Input/CheckBox";
-import { kakaoLoginApi, loginApi } from "@/services/pages/Login";
+import {
+  kakaoLoginApi,
+  loginApi,
+  findUserApi,
+  signupApi
+} from "@/services/pages/Login";
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import { UseAuthContext } from "@/contexts/AuthContext";
@@ -23,9 +28,9 @@ export default function Login() {
     queryKey: ["login"],
     queryFn: loginApi
   });
-  const { mutateAsync: kakaoLoginMutate, data: kakaoLoginRes } = usePost({
-    queryKey: ["kakaoLoginApi"],
-    queryFn: kakaoLoginApi
+  const { mutateAsync: signupMutate, data: signupRes } = usePost({
+    queryKey: ["signup"],
+    queryFn: signupApi
   });
   const { setLogin } = useLogin({
     setIsLogin,
@@ -67,7 +72,8 @@ export default function Login() {
   useEffect(() => {
     const params = new URL(document.location.toString()).searchParams;
     if (!params.size) return;
-
+    let userId;
+    let kakaoUserInfo;
     const code = params.get("code");
     const kakaoKey = process.env.REACT_APP_KAKAO_KEY; //REST API KEY
     const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URL; //Redirect URI
@@ -90,8 +96,34 @@ export default function Login() {
       })
       .then(res => res.json())
       .then(res => {
-        console.log(res, "sexsex");
-        return res;
+        kakaoUserInfo = res;
+        userId = res.id;
+        findUserApi({ userId })
+          .then((res: any) => {
+            //카카오 로그인 일때
+            if (!res.userId) {
+              signupMutate({
+                password: 1234,
+                name: kakaoUserInfo.kakao_account.profile.nickname,
+                email: kakaoUserInfo.kakao_account.email,
+                url: kakaoUserInfo.kakao_account.profile.thumbnail_image_url,
+                nickname: kakaoUserInfo.kakao_account.profile.nickname,
+                kakaoId: kakaoUserInfo.id
+              });
+              return { id: kakaoUserInfo.id, password: 1234 };
+            } else {
+              loginMutate({ userId, password: 1234 }).then(res =>
+                setLogin(res, isAutoLogin)
+              );
+            }
+          })
+          .then(({ id, password }) => {
+            if (id) {
+              loginMutate({ userId: id, password }).then(res =>
+                setLogin(res, isAutoLogin)
+              );
+            }
+          });
       });
   }, [new URL(document.location.toString()).searchParams.size]);
   return (
