@@ -7,7 +7,9 @@ import {
   kakaoLoginApi,
   loginApi,
   findUserApi,
-  signupApi
+  findKakaoUserApi,
+  signupApi,
+  kakaoSignupApi
 } from "@/services/pages/Login";
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
@@ -28,9 +30,21 @@ export default function Login() {
     queryKey: ["login"],
     queryFn: loginApi
   });
+  const { mutateAsync: kakaoLoginMutate, data: kakaoLoginRes } = usePost({
+    queryKey: ["kakaoLogin"],
+    queryFn: kakaoLoginApi
+  });
   const { mutateAsync: signupMutate, data: signupRes } = usePost({
     queryKey: ["signup"],
     queryFn: signupApi
+  });
+  const { mutateAsync: kakaoSignupMutate, data: kakaoSignupRes } = usePost({
+    queryKey: ["kakaoSignup"],
+    queryFn: kakaoSignupApi
+  });
+  const { mutateAsync: kakaoUserMutate, data: kakaoUserRes } = usePost({
+    queryKey: ["kakaoUser"],
+    queryFn: findKakaoUserApi
   });
   const { setLogin } = useLogin({
     setIsLogin,
@@ -72,7 +86,7 @@ export default function Login() {
   useEffect(() => {
     const params = new URL(document.location.toString()).searchParams;
     if (!params.size) return;
-    let userId;
+    let kakaoId;
     let kakaoUserInfo;
     const code = params.get("code");
     const kakaoKey = process.env.REACT_APP_KAKAO_KEY; //REST API KEY
@@ -97,12 +111,12 @@ export default function Login() {
       .then(res => res.json())
       .then(res => {
         kakaoUserInfo = res;
-        userId = res.id;
-        findUserApi({ userId })
+        kakaoId = res.id;
+        kakaoUserMutate({ kakaoId })
           .then(async (res: any) => {
             //카카오 로그인 일때
-            if (!res.userId) {
-              await signupMutate({
+            if (!res.userInfo.id) {
+              await kakaoSignupMutate({
                 password: 1234,
                 name: kakaoUserInfo.kakao_account.profile.nickname,
                 email: kakaoUserInfo.kakao_account.email,
@@ -110,16 +124,17 @@ export default function Login() {
                 nickname: kakaoUserInfo.kakao_account.profile.nickname,
                 kakaoId: kakaoUserInfo.id
               });
-              return { id: kakaoUserInfo.id, password: 1234 };
+              return { kakaoId, password: 1234 };
             } else {
-              kakaoLoginApi({ kakaoId: id, password: 1234 }).then(res =>
+              kakaoLoginMutate({ kakaoId, password: 1234 }).then(res =>
                 setLogin(res, isAutoLogin)
               );
             }
           })
-          .then(({ id, password }) => {
-            if (id) {
-              kakaoLoginApi({ kakaoId: id, password }).then(res =>
+          .then((res) => {
+            console.log(res,"eee")
+            if (kakaoId) {
+              kakaoLoginMutate({ kakaoId, password:1234 }).then(res =>
                 setLogin(res, isAutoLogin)
               );
             }

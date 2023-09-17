@@ -16,6 +16,14 @@ export function findUserApi({ userId }) {
     query: { userId }
   });
 }
+export function findKakaoUserApi({ kakaoId }) {
+  console.log(kakaoId, "@@@@@@@@@@");
+  const url = `/users/find_kakao_user`;
+  return api.get({
+    url,
+    query: { kakaoId }
+  });
+}
 
 export function kakaoLoginApi({ kakaoId, password }) {
   const url = `/users/kakao_login`;
