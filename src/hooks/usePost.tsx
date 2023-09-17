@@ -31,18 +31,17 @@ export default function usePost({
         console.log(res, a, d, "데잍터");
         await queryClient.invalidateQueries(queryKey);
         return res;
+      },
+      onError: async (res:any, a, d) => {
+        action.action(e => {
+          e.isLoading = false;
+          e.data = res;
+          return { ...e };
+        });
+        console.log(res, a, d, "데잍터");
+        await queryClient.invalidateQueries(queryKey);
+        return res.data;
       }
-      // ,
-      // onError: async (res, a, d) => {
-      //   action.action(e => {
-      //     e.isLoading = false;
-      //     e.data = res;
-      //     return { ...e };
-      //   });
-      //   console.log(res, a, d, "데잍터");
-      //   await queryClient.invalidateQueries(queryKey);
-      //   return res;
-      // }
     }
   );
   // return { mutate, data };
