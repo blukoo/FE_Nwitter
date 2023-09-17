@@ -27,7 +27,7 @@ instance.interceptors.response.use(
     return config.data;
   },
   function (error) {
-    return error;
+    return error.response.data;
   }
 );
 const api = {
