@@ -40,7 +40,7 @@ export default function Login() {
   });
   useEffect(() => {
     if (isLogin) {
-      navigate("/home");
+      navigate("/Home");
     }
   }, [isLogin]);
   const onIdChange = useCallback(e => {
@@ -99,10 +99,10 @@ export default function Login() {
         kakaoUserInfo = res;
         userId = res.id;
         findUserApi({ userId })
-          .then((res: any) => {
+          .then(async (res: any) => {
             //카카오 로그인 일때
             if (!res.userId) {
-              signupMutate({
+              await signupMutate({
                 password: 1234,
                 name: kakaoUserInfo.kakao_account.profile.nickname,
                 email: kakaoUserInfo.kakao_account.email,
@@ -112,14 +112,14 @@ export default function Login() {
               });
               return { id: kakaoUserInfo.id, password: 1234 };
             } else {
-              loginMutate({ userId, password: 1234 }).then(res =>
+              kakaoLoginApi({ kakaoId: id, password: 1234 }).then(res =>
                 setLogin(res, isAutoLogin)
               );
             }
           })
           .then(({ id, password }) => {
             if (id) {
-              loginMutate({ userId: id, password }).then(res =>
+              kakaoLoginApi({ kakaoId: id, password }).then(res =>
                 setLogin(res, isAutoLogin)
               );
             }
