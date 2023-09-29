@@ -1,11 +1,12 @@
 //react
-import { forwardRef, ChangeEventHandler, RefObject } from "react";
+import { forwardRef, ChangeEventHandler, RefObject, KeyboardEventHandler } from "react";
 //style
 import "@/styles/components/Input/index.scss";
 export type propsType = {
   value: string | boolean | number;
   id?: string;
-  onChange: ChangeEventHandler;
+  onChange?: ChangeEventHandler;
+  onKeyUp?: KeyboardEventHandler;
   style?: any;
   type?: string;
   placeholder?: string;
@@ -21,6 +22,7 @@ const Input = forwardRef(
       value = "",
       id = "",
       onChange,
+      onKeyUp,
       style,
       type = "text",
       placeholder,
@@ -36,6 +38,7 @@ const Input = forwardRef(
           // @ts-ignore
           value={value}
           onChange={onChange}
+          onKeyUp={onKeyUp}
           style={style}
           type={type}
           placeholder={placeholder}
