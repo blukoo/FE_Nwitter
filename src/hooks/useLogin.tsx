@@ -5,7 +5,7 @@ import { Popup } from "@/enum/Popup";
 const INIT_USER_INFO = {
   userId: "",
   password: "",
-  name: "",
+  nickname: "",
   url: "",
   email: ""
 };
@@ -24,19 +24,29 @@ export default function useLogin({
     setUserInfo(e => INIT_USER_INFO);
     setIsLogin(e => false);
     if (localStorage.getItem("token")) {
+      localStorage.removeItem("userInfo");
       localStorage.removeItem("token");
     } else if (sessionStorage.getItem("token")) {
+      sessionStorage.removeItem("userInfo");
       sessionStorage.removeItem("token");
     }
   }
   async function setLogin(res, isAutoLogin?) {
+    let { token, userId, nickname, url, email } = res;
     if (res?.token) {
+      setUserInfo(e => {
+        return { userId, nickname, url, email };
+      });
       setIsLogin(e => true);
       if (isAutoLogin) {
+        localStorage.setItem("userInfo", JSON.stringify({ userId, nickname, url, email }));
         localStorage.setItem("token", res.token);
+        sessionStorage.removeItem("userInfo");
         sessionStorage.removeItem("token");
       } else {
+        sessionStorage.setItem("userInfo", JSON.stringify({ userId, nickname, url, email }));
         sessionStorage.setItem("token", res.token);
+        localStorage.removeItem("userInfo");
         localStorage.removeItem("token");
       }
 

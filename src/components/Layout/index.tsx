@@ -9,17 +9,26 @@ import { UseAuthContext } from "@/contexts/AuthContext";
 export default function Layout() {
   const { action } = UseUtilsContext();
   const { state: mutateState, action: mutateAction } = UseMutateContext();
-  const { setIsLogin } = UseAuthContext();
+  const { setIsLogin, setUserInfo } = UseAuthContext();
 
   const setCurrentTarget = $event => {
     console.log($event.target, "target");
     action.setTarget($event.target);
   };
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLogin(true);
-    } else if (sessionStorage.getItem("token")) {
-      setIsLogin(true);
+    if (
+      localStorage.getItem("userInfo") ||
+      sessionStorage.getItem("userInfo")
+    ) {
+      const { token, userId, nickname, url, email } = JSON.parse(
+        localStorage.getItem("userInfo") ?? sessionStorage.getItem("userInfo")
+      );
+      if (token) {
+        setIsLogin(true);
+        setUserInfo(e => {
+          return { userId, nickname, url, email };
+        });
+      }
     } else {
       setIsLogin(false);
     }

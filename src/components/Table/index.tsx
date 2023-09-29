@@ -6,15 +6,24 @@ import { ColumnsType } from "@/types/types";
 //style
 import styles from "@/styles/components/Table/index.module.scss";
 //react
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
-export default function index(props) {
+export default function index({
+  columnsData,
+  rowData,
+  setRowData,
+  id,
+  dataForm
+}) {
+  // const [list, setRowData] = useState([]);
   const [pages, setPage] = useState(0);
-  const {
-    columnsData,
-    rowsData,
-    id
-  }: { columnsData: ColumnsType[]; rowsData: any[]; id: string } = props;
+  // const {
+  //   columnsData,
+  //   rowData,
+  //   setRowData,
+  //   id,
+  //   dataForm
+  // }: { columnsData: ColumnsType[]; rowData: any[];setRowData:React.Dispatch<React.SetStateAction<any[]>>, id: string,dataForm:any[] } = props;
   //useRef
   const scrollLoad = useRef();
   //hook
@@ -44,20 +53,52 @@ export default function index(props) {
       observer && observer.disconnect();
     };
   }, [scrollLoad]);
+  const addList = () => {
+    debugger
+    setRowData(value => {
+      let _value = [...value];
+      _value.unshift(dataForm);
+      return [..._value];
+    });
+  };
+  const onChangeValue = (cate, e: ChangeEvent<Element>, row, idx) => {
+    if (cate === "deleteChoice") {
+      setRowData(value => {
+        value[idx][cate] = (e.target as HTMLInputElement).checked;
+        return [...value];
+      });
+      return;
+    } else {
+      setRowData(value => {
+        row[cate] = (e.target as HTMLInputElement).value;
+        return [...value];
+      });
+    }
+  };
+  const deleteList = useCallback(() => {}, []);
+  const saveList = useCallback(() => {}, []);
   return (
-    <ul className={styles.table_wrap} id={id}>
-      <li className={styles.columns_wrap}>
-        {columnsData?.map((column, idx) => (
-          <Columns columnsData={column} key={idx} />
-        ))}
-      </li>
-      {rowsData?.map((row, idx) => (
-        <li className={styles.rows_wrap} key={idx}>
-          sss{styles.rows_wrap}
-          <Rows rowData={row} columnsData={columnsData} />
+    <>
+      <div>
+        <button onClick={addList}>추가</button>
+        <button onClick={deleteList}>삭제</button>
+        <button onClick={saveList}>저장</button>
+      </div>
+      {JSON.stringify(rowData)+"list"}
+      <ul className={styles.table_wrap} id={id}>
+        <li className={styles.columns_wrap}>
+          {columnsData?.map((column, index) => (
+            <Columns columnsData={column} id={index} columnkey={"column"+index} key={index} />
+          ))}
         </li>
-      ))}
-      <li ref={scrollLoad}>스크롤 로딩</li>
-    </ul>
+        {rowData?.map((row, idx) => (
+          <li className={styles.rows_wrap} key={"row"+idx}>
+            sss{styles.rows_wrap}
+            <Rows rowData={row} columnsData={columnsData} />
+          </li>
+        ))}
+        <li ref={scrollLoad}>스크롤 로딩</li>
+      </ul>
+    </>
   );
 }

@@ -140,7 +140,14 @@ export default function Login() {
                 nickname: kakaoUserInfo.kakao_account.profile.nickname,
                 kakaoId: kakaoUserInfo.id
               });
-              return { kakaoId, password: 1234 };
+              return {
+                kakaoId,
+                password: 1234,
+                name: kakaoUserInfo.kakao_account.profile.nickname,
+                email: kakaoUserInfo.kakao_account.email,
+                url: kakaoUserInfo.kakao_account.profile.thumbnail_image_url,
+                nickname: kakaoUserInfo.kakao_account.profile.nickname,
+              };
             } else {
               kakaoLoginMutate({ kakaoId, password: 1234 }).then(res =>
                 setLogin(res, isAutoLogin)
