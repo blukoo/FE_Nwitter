@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "@/styles/pages/Login.module.scss";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -52,6 +52,7 @@ export default function Login() {
     setPopup,
     navigate
   });
+  const [isNotEmpty, setIsNotEmpty] = useState(false);
   useEffect(() => {
     if (isLogin) {
       navigate("/Home");
@@ -66,6 +67,13 @@ export default function Login() {
   const onSetAutoLogin = useCallback(e => {
     setIsAutoLogin(e.target.checked);
   }, []);
+  useMemo(() => {
+    if (id && password) {
+      setIsNotEmpty(true);
+    } else {
+      setIsNotEmpty(false);
+    }
+  }, [id, password]);
   const validateLogin = () => {
     if (!id.trim()) {
       setPopup("아이디를 입력해주세요");
@@ -77,7 +85,15 @@ export default function Login() {
     }
     return true;
   };
-  const onLogin = async () => {
+  const onEnterLogin = async e => {
+    if (e.code === "Enter" && isNotEmpty) {
+      if (!validateLogin()) return;
+      loginMutate({ userId: id, password }).then(res =>
+        setLogin(res, isAutoLogin)
+      );
+    }
+  };
+  const onLogin = async e => {
     if (!validateLogin()) return;
     loginMutate({ userId: id, password }).then(res =>
       setLogin(res, isAutoLogin)
@@ -131,16 +147,17 @@ export default function Login() {
               );
             }
           })
-          .then((res) => {
-            console.log(res,"eee")
+          .then(res => {
+            console.log(res, "eee");
             if (kakaoId) {
-              kakaoLoginMutate({ kakaoId, password:1234 }).then(res =>
+              kakaoLoginMutate({ kakaoId, password: 1234 }).then(res =>
                 setLogin(res, isAutoLogin)
               );
             }
           });
       });
   }, [new URL(document.location.toString()).searchParams.size]);
+
   return (
     <div>
       <div className={styled.login_wrap}>
@@ -148,13 +165,17 @@ export default function Login() {
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>아이디</p>
             <p className={styled.login_value_item}>
-              <Input value={id} onChange={onIdChange} />
+              <Input value={id} onChange={onIdChange} onKeyUp={onEnterLogin} />
             </p>
           </li>
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>비밀번호</p>
             <p className={styled.login_value_item}>
-              <Input value={password} onChange={onPasswordChange} />
+              <Input
+                value={password}
+                onChange={onPasswordChange}
+                onKeyUp={onEnterLogin}
+              />
             </p>
           </li>
 
