@@ -21,9 +21,16 @@ import KakaoLoginButton from "@/components/Button/KakaoLoginButton";
 export default function Login() {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isAutoLogin, setIsAutoLogin] = useState<boolean>(false);
+  // const [isAutoLogin, setIsAutoLogin] = useState<boolean>(false);
   const { setPopup } = UseModalPopupContext();
-  const { userInfo, setUserInfo, isLogin, setIsLogin } = UseAuthContext(); // 회원정보
+  const {
+    userInfo,
+    setUserInfo,
+    isLogin,
+    setIsLogin,
+    isAutoLogin,
+    setIsAutoLogin
+  } = UseAuthContext(); // 회원정보
 
   const navigate = useNavigate();
   const { mutateAsync: loginMutate, data: loginRes } = usePost({
@@ -64,9 +71,13 @@ export default function Login() {
   const onPasswordChange = useCallback(e => {
     setPassword(e.target.value);
   }, []);
-  const onSetAutoLogin = useCallback(e => {
-    setIsAutoLogin(e.target.checked);
-  }, []);
+  const onSetAutoLogin = useCallback(
+    e => {
+      debugger;
+      setIsAutoLogin(e.target.checked);
+    },
+    [isAutoLogin]
+  );
   useMemo(() => {
     if (id && password) {
       setIsNotEmpty(true);
@@ -95,12 +106,20 @@ export default function Login() {
   };
   const onLogin = async e => {
     if (!validateLogin()) return;
+    debugger;
     loginMutate({ userId: id, password }).then(res =>
       setLogin(res, isAutoLogin)
     );
   };
   useEffect(() => {
-    const params = new URL(document.location.toString()).searchParams;
+    const paramsData = new URL(document.location.toString());
+    const params: any = new URL(document.location.toString()).searchParams;
+    debugger;
+    console.log(params, paramsData, isAutoLogin, "파람");
+    //화면이 전환되면서 자동로그인 체크가 사라짐
+    //그냥 localstorage에 저장
+    let _isAutoLogin = localStorage.getItem("isAutoLogin");
+    localStorage.removeItem("isAutoLogin");
     if (!params.size) return;
     let kakaoId;
     let kakaoUserInfo;
@@ -146,11 +165,11 @@ export default function Login() {
                 name: kakaoUserInfo.kakao_account.profile.nickname,
                 email: kakaoUserInfo.kakao_account.email,
                 url: kakaoUserInfo.kakao_account.profile.thumbnail_image_url,
-                nickname: kakaoUserInfo.kakao_account.profile.nickname,
+                nickname: kakaoUserInfo.kakao_account.profile.nickname
               };
             } else {
               kakaoLoginMutate({ kakaoId, password: 1234 }).then(res =>
-                setLogin(res, isAutoLogin)
+                setLogin(res, _isAutoLogin)
               );
             }
           })
@@ -158,7 +177,7 @@ export default function Login() {
             console.log(res, "eee");
             if (kakaoId) {
               kakaoLoginMutate({ kakaoId, password: 1234 }).then(res =>
-                setLogin(res, isAutoLogin)
+                setLogin(res, _isAutoLogin)
               );
             }
           });
@@ -189,11 +208,12 @@ export default function Login() {
           <li className={styled.login_item}>
             <p className={styled.login_value_item}>
               <Button onClick={onLogin}>로그인</Button>
-              <KakaoLoginButton></KakaoLoginButton>
+              <KakaoLoginButton isAutoLogin={isAutoLogin}></KakaoLoginButton>
             </p>
           </li>
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>자동로그인 </p>
+            {JSON.stringify(isAutoLogin) + "Sss"}
             <p className={styled.login_value_item}>
               <CheckBox
                 value={isAutoLogin}
