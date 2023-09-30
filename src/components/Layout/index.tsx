@@ -20,9 +20,11 @@ export default function Layout() {
       localStorage.getItem("userInfo") ||
       sessionStorage.getItem("userInfo")
     ) {
-      const { token, userId, nickname, url, email } = JSON.parse(
+      const { userId, nickname, url, email } = JSON.parse(
         localStorage.getItem("userInfo") ?? sessionStorage.getItem("userInfo")
       );
+      const token =
+        localStorage.getItem("token") ?? sessionStorage.getItem("token");
       if (token) {
         setIsLogin(true);
         setUserInfo(e => {

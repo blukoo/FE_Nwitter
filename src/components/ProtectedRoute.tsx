@@ -8,7 +8,8 @@ export default function ProtectedRoute({ children }: { children }) {
   const { isLogin } = UseAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isLogin) {
+    // if (!isLogin) {
+    if(!localStorage.getItem("token") && !sessionStorage.getItem("token")){
       setPopup("로그인 부터 해주시기 바랍니다", {
         Confirm: () => navigate("/")
       });

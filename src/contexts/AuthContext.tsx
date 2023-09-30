@@ -5,9 +5,12 @@ interface AuthType {
   setUserInfo: Dispatch<any>;
   isLogin: boolean;
   setIsLogin: Dispatch<any>;
+  isAutoLogin: boolean;
+  setIsAutoLogin: Dispatch<any>;
 }
 const AuthContext = createContext<AuthType>({
   userInfo: {
+    
     userId: "",
     password: "",
     name: "",
@@ -15,8 +18,12 @@ const AuthContext = createContext<AuthType>({
     email: ""
   }, //화원정보
   setUserInfo: () => {},
-  isLogin: false, //로딩 여부
-  setIsLogin: () => {}
+  // isLogin: false, //로딩 여부
+  
+  isLogin: !!(localStorage.getItem("token")||sessionStorage.getItem("token")), //로딩 여부
+  setIsLogin: () => {},
+  isAutoLogin: false, //자동로그인
+  setIsAutoLogin: () => {}
 });
 
 export function AuthContextProvider({ children }: any) {
@@ -30,6 +37,7 @@ export function AuthContextProvider({ children }: any) {
     } //화원정보
   );
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isAutoLogin, setIsAutoLogin] = useState<boolean>(false);
   return (
     // @ts-ignore
     <AuthContext.Provider
@@ -37,7 +45,9 @@ export function AuthContextProvider({ children }: any) {
         userInfo,
         setUserInfo,
         isLogin,
-        setIsLogin
+        setIsLogin,
+        isAutoLogin,
+        setIsAutoLogin
       }}
     >
       {children}
