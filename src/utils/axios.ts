@@ -11,11 +11,23 @@ axios.defaults.headers.common["Access-Control-Allow-Methods"] =
 
 axios.defaults.headers.common["Content-Type"] =
   "application/x-www-form-urlencoded";
+let token = localStorage.getItem("token")?localStorage.getItem("token"):sessionStorage.getItem("token")
+// console.log(token,"토큰")  
+let Authorization = 'Bearer '+ token
+axios.defaults.headers.common["Authorization"] = Authorization
 const instance = axios.create({
   baseURL: baseApiUrl
 });
 instance.interceptors.request.use(
   function (config) {
+    
+  let token = localStorage.getItem("token")?localStorage.getItem("token"):sessionStorage.getItem("token")
+  console.log(token,"토큰")  
+  debugger
+  if(config.headers.Authorization && (config.headers.Authorization as string).split(" ")[1]==="null"){
+    let Authorization = 'Bearer '+ token
+    config.headers["Authorization"] = Authorization
+  }
     return config;
   },
   function (error) {
