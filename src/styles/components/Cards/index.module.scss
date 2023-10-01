@@ -1,8 +1,10 @@
 .table_wrap {
   width: 100%;
-  border: 2px solid #000;
-  height: 200px;
-  overflow-y: scroll;
+  // border: 2px solid #000;
+  // max-height: 100vh;
+  height: 100%;
+  overflow: scroll;
+
   .columns_wrap {
     width: 100%;
     display: flex;
@@ -13,5 +15,9 @@
     width: 100%;
     flex-direction: column;
     display: flex;
+    background-color: white;
+    margin-bottom: 3%;
+    border-radius: 10px;
+    border: 2px solid #000;
   }
 }

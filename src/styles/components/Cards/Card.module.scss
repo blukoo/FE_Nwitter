@@ -1,0 +1,25 @@
+.card_wrap {
+  font-family: "NotoSans-Bold";
+  display: flex;
+  flex-direction: column;
+  flex-basis: auto;
+  .top_wrap {
+    display: flex;
+    flex-direction: row;
+    padding: 1%;
+    .nickname_wrap {
+      flex-grow: 1;
+    }
+    .btn_wrap {
+      width: 30%;
+      display: flex;
+      align-items: end;
+    }
+  }
+  .content_wrap {
+    height: 50vh;
+    .text_wrap {
+      height: 60%;
+    }
+  }
+}
