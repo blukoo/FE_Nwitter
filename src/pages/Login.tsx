@@ -73,7 +73,6 @@ export default function Login() {
   }, []);
   const onSetAutoLogin = useCallback(
     e => {
-      debugger;
       setIsAutoLogin(e.target.checked);
     },
     [isAutoLogin]
@@ -106,7 +105,6 @@ export default function Login() {
   };
   const onLogin = async e => {
     if (!validateLogin()) return;
-    debugger;
     loginMutate({ userId: id, password }).then(res =>
       setLogin(res, isAutoLogin)
     );
@@ -114,7 +112,6 @@ export default function Login() {
   useEffect(() => {
     const paramsData = new URL(document.location.toString());
     const params: any = new URL(document.location.toString()).searchParams;
-    debugger;
     console.log(params, paramsData, isAutoLogin, "파람");
     //화면이 전환되면서 자동로그인 체크가 사라짐
     //그냥 localstorage에 저장

@@ -23,7 +23,6 @@ instance.interceptors.request.use(
     
   let token = localStorage.getItem("token")?localStorage.getItem("token"):sessionStorage.getItem("token")
   console.log(token,"토큰")  
-  debugger
   if(config.headers.Authorization && (config.headers.Authorization as string).split(" ")[1]==="null"){
     let Authorization = 'Bearer '+ token
     config.headers["Authorization"] = Authorization
