@@ -11,7 +11,8 @@ export default function SearchHeader() {
 
   return (
     <>
-      <header className="w-full flex p-4 text-2xl border-b border-zinc-600 mb-4">
+      {/* <header className="w-full flex p-4 text-2xl border-b border-zinc-600 mb-4"> */}
+      <header >
         <div>
           <BsYoutube>
             <h1>Youtube</h1>

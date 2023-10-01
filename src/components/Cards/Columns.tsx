@@ -3,9 +3,10 @@ import React from "react";
 import styles from "@/styles/components/Table/Columns.module.scss";
 
 export default function Columns(props) {
-  const { columnsData, key } = props;
+  const { columnsData, columnkey } = props;
+  console.log(columnkey);
   return (
-    <div key={key} className={styles.columns_wrap}>
+    <div key={columnkey} className={styles.columns_wrap}>
       {columnsData.label}
     </div>
   );

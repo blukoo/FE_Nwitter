@@ -35,7 +35,7 @@ export default function Header() {
     navigate("/login");
   }, []);
   return (
-    <header id={styles.header_wrap}>
+    <header className={styles.header_wrap} id="header">
       <div className={styles.inner_header_wrap}>
         <Mobile>
           <div className={styles.mobile_navbar_wrap}>

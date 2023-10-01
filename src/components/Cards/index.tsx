@@ -1,10 +1,10 @@
 //component
 import Columns from "./Columns";
-import Rows from "./Rows";
+import Card from "./Card";
 //type
 import { ColumnsType } from "@/types/types";
 //style
-import styles from "@/styles/components/Table/index.module.scss";
+import styles from "@/styles/components/Cards/index.module.scss";
 //react
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
@@ -13,7 +13,11 @@ export default function index({
   rowData,
   setRowData,
   id,
-  dataForm
+  dataForm,
+  targetContent,
+  setTargetContent,
+  onDeleteList,
+  onSaveList
 }) {
   // const [list, setRowData] = useState([]);
   const [pages, setPage] = useState(0);
@@ -29,11 +33,14 @@ export default function index({
   //hook
   const debounce = useDebounce(
     () => {
-      alert("패치");
+      // alert("패치");
     },
     100,
     [pages]
   );
+  const [addList, setAddList] = useState([]);
+  const [deleteList, setDeleteList] = useState([]);
+  const [update, setUpdate] = useState([]);
   //useEffect
   useEffect(() => {
     let observer;
@@ -53,48 +60,57 @@ export default function index({
       observer && observer.disconnect();
     };
   }, [scrollLoad]);
-  const addList = () => {
-    debugger
+  const onAddList = () => {
+    if(rowData.find(r=>r.id==="new")){
+      return
+    }
     setRowData(value => {
       let _value = [...value];
       _value.unshift(dataForm);
       return [..._value];
     });
   };
-  const onChangeValue = (cate, e: ChangeEvent<Element>, row, idx) => {
-    if (cate === "deleteChoice") {
-      setRowData(value => {
-        value[idx][cate] = (e.target as HTMLInputElement).checked;
-        return [...value];
-      });
-      return;
-    } else {
-      setRowData(value => {
-        row[cate] = (e.target as HTMLInputElement).value;
-        return [...value];
-      });
-    }
+  const onChangeValue = (e: ChangeEvent<HTMLInputElement>,row,tag) => {
+    console.log(e,row,"sss")
+    setRowData(r=>{r.find(item=>item.id===row.id)[tag]=e.target.value; return r})
   };
-  const deleteList = useCallback(() => {}, []);
-  const saveList = useCallback(() => {}, []);
+  const onSetTargetContent = useCallback(row => {
+    setTargetContent(r => {
+      return { ...r, ...row };
+    });
+  }, []);
   return (
     <>
       <div>
-        <button onClick={addList}>추가</button>
-        <button onClick={deleteList}>삭제</button>
-        <button onClick={saveList}>저장</button>
+        <button onClick={onAddList}>추가</button>
       </div>
-      {JSON.stringify(rowData)+"list"}
+      {JSON.stringify(rowData) + "list"}
       <ul className={styles.table_wrap} id={id}>
-        <li className={styles.columns_wrap}>
+        {/* <li className={styles.columns_wrap}>
           {columnsData?.map((column, index) => (
-            <Columns columnsData={column} id={index} columnkey={"column"+index} key={index} />
+            <Columns
+              columnsData={column}
+              id={index}
+              columnkey={"column" + index}
+              key={index}
+            />
           ))}
-        </li>
+        </li> */}
         {rowData?.map((row, idx) => (
-          <li className={styles.rows_wrap} key={"row"+idx}>
-            sss{styles.rows_wrap}
-            <Rows rowData={row} columnsData={columnsData} />
+          <li
+            onClick={row => onSetTargetContent(row)}
+            key={"row" + idx}
+            className={styles.row_wrap}
+          >
+            {/* <div className={styles.rows_wrap}> */}
+            <Card
+              rowData={row}
+              columnsData={columnsData}
+              onInput={onChangeValue}
+              onDeleteList={onDeleteList}
+              onSaveList={onSaveList}
+            />
+            {/* </div> */}
           </li>
         ))}
         <li ref={scrollLoad}>스크롤 로딩</li>
