@@ -17,6 +17,9 @@ const queryClient = new QueryClient({
   }
 });
 function App() {
+  useEffect(()=>{
+    document.getElementsByTagName("body")[0].style.height=window.innerHeight+"px"
+  },[])
   return (
     <Suspense fallback={<div>로딩중이에요!!!!</div>}>
       <QueryClientProvider client={queryClient}>

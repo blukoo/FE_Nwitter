@@ -10,13 +10,23 @@
   align-items: center;
   font-family: "NotoSans-Regular";
   color: blue;
-  
+  height: 100%;
 }
 #app_wrap {
   width: 80vw;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  #header{
+    flex-basis:20%
+  }
+  #layout_content{
+    flex-basis:60%
+  }
+  #footer{
+    flex-basis:20%
+  }
 }
 
 #popup_root,

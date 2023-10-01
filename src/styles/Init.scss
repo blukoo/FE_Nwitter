@@ -112,8 +112,13 @@ nav,
 section {
   display: block;
 }
+.ReactQueryDevtools{
+  display: none;
+}
 body {
-  line-height: 1;
+  // line-height: 1;
+  height: 100%;
+  overflow: hidden;
 }
 ol,
 ul {
@@ -123,6 +128,7 @@ blockquote,
 q {
   quotes: none;
 }
+textarea:focus, input:focus{ border: none; outline: none;}
 blockquote:before,
 blockquote:after,
 q:before,
