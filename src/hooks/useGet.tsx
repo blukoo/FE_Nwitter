@@ -14,7 +14,7 @@ export default function useGet({
   }: {
     isLoading: boolean;
     error: any;
-    data: { data: any[] };
+    data: any[];
   } = useQuery(queryKey, queryFn, {
     suspense: true,
     staleTime: 60 * 1000,

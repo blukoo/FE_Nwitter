@@ -38,7 +38,7 @@ instance.interceptors.response.use(
     return config.data;
   },
   function (error) {
-    return error.response.data;
+    return Promise.reject(error.response.data);
   }
 );
 const api = {

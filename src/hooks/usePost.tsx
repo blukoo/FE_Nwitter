@@ -33,6 +33,7 @@ export default function usePost({
         return res;
       },
       onError: async (res:any, a, d) => {
+        // console.log(res, a, d, "데잍터22");
         action.action(e => {
           e.isLoading = false;
           e.data = res;
@@ -40,7 +41,7 @@ export default function usePost({
         });
         console.log(res, a, d, "데잍터");
         await queryClient.invalidateQueries(queryKey);
-        return res.data;
+        throw Error(res.message);
       }
     }
   );
