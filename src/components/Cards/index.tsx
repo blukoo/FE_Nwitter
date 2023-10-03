@@ -61,8 +61,8 @@ export default function index({
     };
   }, [scrollLoad]);
   const onAddList = () => {
-    if(rowData.find(r=>r.id==="new")){
-      return
+    if (rowData.find(r => r.id === "new")) {
+      return;
     }
     setRowData(value => {
       let _value = [...value];
@@ -70,10 +70,39 @@ export default function index({
       return [..._value];
     });
   };
-  const onChangeValue = (e: ChangeEvent<HTMLInputElement>,row,tag) => {
-    console.log(e,row,"sss")
-    setRowData(r=>{r.find(item=>item.id===row.id)[tag]=e.target.value; return r})
+  const onChangeValue = (e: ChangeEvent<HTMLInputElement>, row, tag) => {
+    console.log(e, row, "sss");
+    setRowData(r => {
+      r.find(item => item.id === row.id)[tag] = e.target.value;
+      return r;
+    });
   };
+
+  const onImageChange = useCallback(async (e, row, tag) => {
+    let imageArr = [];
+    // console.log(e, e.target.files, URL.createObjectURL(e.target.files[0]));
+    for (let file of e.target.files) {
+      let _file = URL.createObjectURL(file);
+      imageArr.push(_file);
+    }
+    // let reader = new FileReader()
+    // reader.readAsDataURL(e.target.files[0])
+    // reader.onload = ()=>{
+    //   console.log(reader.result)
+    //   setRowData(r => {
+    //     let target = r.find(item => item.id === row.id);
+    //     console.log(reader.result)
+    //     target["_image"] = reader.result;
+    //     return r;
+    //   });
+    // }
+    setRowData(r => {
+      let target = r.find(item => item.id === row.id);
+      target[tag] = URL.createObjectURL(e.target.files[0]);
+      target["_image"] =e.target.files[0];
+      return r;
+    });
+  }, []);
   const onSetTargetContent = useCallback(row => {
     setTargetContent(r => {
       return { ...r, ...row };
@@ -84,7 +113,6 @@ export default function index({
       <div>
         <button onClick={onAddList}>추가</button>
       </div>
-      {JSON.stringify(rowData) + "list"}
       <ul className={styles.table_wrap} id={id}>
         {/* <li className={styles.columns_wrap}>
           {columnsData?.map((column, index) => (
@@ -109,6 +137,7 @@ export default function index({
               onInput={onChangeValue}
               onDeleteList={onDeleteList}
               onSaveList={onSaveList}
+              onImageChange={onImageChange}
             />
             {/* </div> */}
           </li>

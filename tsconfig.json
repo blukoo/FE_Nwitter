@@ -17,7 +17,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": { "@/*": ["src/*"] },
+    "downlevelIteration": true
   },
   "typeRoots": ["./index.d.tsx"],
   "include": ["src", "index.tsx", "types", "**/*.ts", "**/*.tsx"]

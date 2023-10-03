@@ -9,11 +9,15 @@ export default function Rows(props) {
     columnsData,
     onInput,
     onDeleteList,
-    onSaveList
-  }: { columnsData: ColumnsType[]; rowData: any,
-    onInput:(e:FormEvent,...arg:any)=>void 
-    onDeleteList:(row:any)=>void  
-    onSaveList:(row:any)=>void 
+    onSaveList,
+    onImageChange
+  }: {
+    columnsData: ColumnsType[];
+    rowData: any;
+    onInput: (e: FormEvent, ...arg: any) => void;
+    onDeleteList: (row: any) => void;
+    onSaveList: (row: any) => void;
+    onImageChange: (...arg: any) => void;
   } = props;
 
   return (
@@ -21,18 +25,31 @@ export default function Rows(props) {
       <div className={styles.top_wrap}>
         <div className={styles.nickname_wrap}>{rowData.nickname}</div>
         <div className={styles.btn_wrap}>
-          <Button onClick={()=>onDeleteList(rowData)}>삭제</Button>
-          <Button onClick={()=>onSaveList(rowData)}>저장</Button>
+          <Button onClick={() => onDeleteList(rowData)}>삭제</Button>
+          <Button onClick={() => onSaveList(rowData)}>저장</Button>
         </div>
       </div>
       <div className={styles.content_wrap}>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={file => onImageChange(file, rowData, "image")}
+          multiple
+        />
         {rowData.image ? (
           <div className={styles.image_wrap}>
-            <img src={rowData.image}></img>
+            <div className={styles.image_inner_wrap}>
+              <img src={rowData.image}></img>
+            </div>
           </div>
         ) : null}
         <div className={styles.text_wrap}>
-          <Input value={rowData.text} wrapperStyle={{width:"100%",height:"100%"}} type={"textarea"} onInput={(e)=>onInput(e,rowData,"text")} />
+          <Input
+            value={rowData.text}
+            wrapperStyle={{ width: "100%", height: "100%" }}
+            type={"textarea"}
+            onInput={e => onInput(e, rowData, "text")}
+          />
         </div>
       </div>
     </div>
