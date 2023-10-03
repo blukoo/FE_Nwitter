@@ -22,10 +22,11 @@
     flex-basis:20%
   }
   #layout_content{
-    flex-basis:60%
+    flex-basis:60%;
+    flex-grow: 1;
   }
   #footer{
-    flex-basis:20%
+    flex-basis:5%
   }
 }
 
