@@ -11,7 +11,7 @@ import {
 //style
 import "@/styles/components/Input/index.scss";
 export type propsType = {
-  value: string | boolean | number;
+  value?: string | boolean | number;
   id?: string;
   onChange?: ChangeEventHandler;
   onKeyUp?: KeyboardEventHandler;
@@ -23,6 +23,8 @@ export type propsType = {
   label?: string;
   className?: string;
   name?: string;
+  multiple?:boolean
+  accept?:string
 };
 
 const Input = forwardRef(
@@ -40,7 +42,9 @@ const Input = forwardRef(
       placeholder,
       label,
       className,
-      name
+      name,
+      multiple,
+      accept
     } = props;
     return (
       <span
@@ -62,6 +66,8 @@ const Input = forwardRef(
             ref={ref as RefObject<HTMLInputElement>}
             className={className}
             name={name}
+            multiple={multiple?true:false}
+            accept={accept}
           />
         ) : (
           <textarea
