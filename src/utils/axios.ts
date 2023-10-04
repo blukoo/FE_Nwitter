@@ -5,7 +5,7 @@ const baseApiUrl = process.env.REACT_APP_API_BASE_URL;
 // 리소스 접근 허용
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 // 서로 다른 도메인간 쿠키 전달 허용
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.defaults.headers.common["Access-Control-Allow-Methods"] =
   "GET, POST, PUT, DELETE, OPTIONS";
 
@@ -14,7 +14,7 @@ axios.defaults.headers.common["Content-Type"] =
 let token = localStorage.getItem("token")
   ? localStorage.getItem("token")
   : sessionStorage.getItem("token");
-// console.log(token,"토큰")
+console.log(token,"토큰")
 let Authorization = "Bearer " + token;
 axios.defaults.headers.common["Authorization"] = Authorization;
 const instance = axios.create({
