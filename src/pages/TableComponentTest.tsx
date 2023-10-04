@@ -16,17 +16,19 @@ import {
   insertTweetsImageApi,
   deleteTweetsApi
 } from "@/services/pages/TableComponentTestApi";
-import { UseAuthContext } from "@/contexts/AuthContext";
+import { UseUtilsContext } from "@/contexts/UtilsContext";
+
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 export default function TableComponentTest() {
+  const { socketClient } = UseUtilsContext();
   const { setPopup } = UseModalPopupContext();
   const id = useId();
   // const { userInfo, setUserInfo, isLogin, setIsLogin } = UseAuthContext();
   const userInfo = JSON.parse(
     localStorage.getItem("userInfo") ?? sessionStorage.getItem("userInfo")
   );
-  const { data: list } = useGet({
+  const { data: list, refetch } = useGet({
     queryKey: ["Tweets"],
     queryFn: async () => await getTweetsApi({ userId: userInfo.userId })
   });
@@ -69,6 +71,11 @@ export default function TableComponentTest() {
       return [];
     });
   }, [list]);
+  useEffect(() => {
+    socketClient.io.on("getTweets", () => {
+      refetch();
+    });
+  }, []);
   const colData = useMemo(() => {
     return [
       { tag: "name", label: "이름" },
@@ -119,20 +126,26 @@ export default function TableComponentTest() {
       console.log(...formData, "formdata");
       if (r.id === "new") {
         let res = await insertTweetsMutate({ query: r });
-        console.log(insertTweetsRes,res,"sex")
-        await updateTweetsImageMutate({ id: res.id, query: formData });
+        if (formData.get("image")) {
+          await updateTweetsImageMutate({ id: res.id, query: formData });
+        }
       } else {
-        let insert = {...r}
-        delete insert.image
-        delete insert._image
+        let insert = { ...r };
+        delete insert.image;
+        delete insert._image;
         await updateTweetsMutate({
           id: r.id,
           query: insert
-          
         });
-        await updateTweetsImageMutate({ id: r.id, query: formData });
+        if (formData.get("image")) {
+          await updateTweetsImageMutate({ id: r.id, query: formData });
+        }
       }
       setPopup("저장되었습니다");
+      console.log(socketClient, "socketClient");
+      socketClient.io.emit("saveTweets", a => {
+        console.log("소켓");
+      });
     } catch (e) {
       setPopup(e.message);
     }

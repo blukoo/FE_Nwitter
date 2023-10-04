@@ -11,10 +11,12 @@ export default function useGet({
     isLoading,
     error,
     data,
+    refetch 
   }: {
     isLoading: boolean;
     error: any;
     data: any[];
+    refetch :any
   } = useQuery(queryKey, queryFn, {
     suspense: true,
     staleTime: 60 * 1000,
@@ -24,5 +26,6 @@ export default function useGet({
     isLoading,
     error,
     data,
+    refetch 
   };
 }

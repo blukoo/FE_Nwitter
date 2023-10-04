@@ -7,7 +7,7 @@ import "@/styles/Layout/index.scss";
 import { useEffect } from "react";
 import { UseAuthContext } from "@/contexts/AuthContext";
 export default function Layout() {
-  const { action } = UseUtilsContext();
+  const { action, socketClient } = UseUtilsContext();
   const { state: mutateState, action: mutateAction } = UseMutateContext();
   const { setIsLogin, setUserInfo } = UseAuthContext();
 
@@ -35,6 +35,9 @@ export default function Layout() {
       setIsLogin(false);
     }
   }, [localStorage.getItem("token"), sessionStorage.getItem("token")]);
+  useEffect(()=>{
+    socketClient.onConnect()
+  },[])
   return (
     <>
       {/* get은 suspense로 확인가능 */}
