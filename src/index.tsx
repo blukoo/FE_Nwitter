@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import Socket from '@/network/socket';
+import Socket from "@/network/socket";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,11 +12,11 @@ import {
 import NotFounds from "@/pages/NotFounds";
 import Home from "@/pages/Home";
 import Login from "./pages/Login";
-import TempPage from "@/pages/TempPage";
+import Friend from "@/pages/Friends";
 import TableTest from "@/pages/TableTest";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TableComponentTest from "./pages/TableComponentTest";
-import NeedLoginPage from "./pages/NeedLoginPage";//description
+import NeedLoginPage from "./pages/NeedLoginPage"; //description
 
 // import Button from "@/description/Button/";
 // import Input from "@/description/Input";
@@ -47,8 +47,12 @@ const router = createBrowserRouter([
         path: "login"
       },
       {
-        element: <TempPage />,
-        path: "temp"
+        element: (
+          <ProtectedRoute>
+            <Friend />
+          </ProtectedRoute>
+        ),
+        path: "Friend"
       },
       {
         element: <TableTest />,

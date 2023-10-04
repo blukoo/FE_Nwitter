@@ -25,9 +25,9 @@ export default function Navbar() {
         <div className={styles.link_item}>
           <NavLink
             className={isActive => (isActive ? "active" : "")}
-            to="/temp"
+            to="/friend"
           >
-            Temp
+            friend
           </NavLink>
         </div>
         <div className={styles.link_item}>

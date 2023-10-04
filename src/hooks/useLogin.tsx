@@ -32,19 +32,25 @@ export default function useLogin({
     }
   }
   async function setLogin(res, isAutoLogin?) {
-    let { token, userId, nickname, url, email } = res;
+    let { token, userId, nickname, url, email, id } = res;
     if (res?.token) {
       setUserInfo(e => {
         return { userId, nickname, url, email };
       });
       setIsLogin(e => true);
       if (isAutoLogin) {
-        localStorage.setItem("userInfo", JSON.stringify({ userId, nickname, url, email }));
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({ id, userId, nickname, url, email })
+        );
         localStorage.setItem("token", res.token);
         sessionStorage.removeItem("userInfo");
         sessionStorage.removeItem("token");
       } else {
-        sessionStorage.setItem("userInfo", JSON.stringify({ userId, nickname, url, email }));
+        sessionStorage.setItem(
+          "userInfo",
+          JSON.stringify({ id, userId, nickname, url, email })
+        );
         sessionStorage.setItem("token", res.token);
         localStorage.removeItem("userInfo");
         localStorage.removeItem("token");
