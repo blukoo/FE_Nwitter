@@ -1,0 +1,35 @@
+import React, { useCallback } from "react";
+import styled from "@/styles/components/Friend/index.module.scss"
+function index({ children, friend }) {
+  let userInfo = JSON.parse(
+    localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
+  );
+  const findFriendNickname = useCallback(
+    ({
+      replyFriend,
+      requestFriend
+    }: {
+      replyFriend: { id: number; nickname: string };
+      requestFriend: { id: number; nickname: string };
+    }) => {
+      if (replyFriend.id === userInfo.id) {
+        return requestFriend.nickname;
+      }
+      return replyFriend.nickname;
+    },
+    []
+  );
+  return (
+    <div className={styled.friend_wrap}>
+      <div className={styled.friend_inner_wrap}>
+        {friend?findFriendNickname({
+          requestFriend: friend.requestFriend,
+          replyFriend: friend.replyFriend
+        }):null}
+      </div>
+      <div className={styled.btn_wrap}>{children}</div>
+    </div>
+  );
+}
+
+export default index;

@@ -1,4 +1,3 @@
-
 import api from "@/utils/axios";
 export function getFriendApi({ id }: { id: string }) {
   const url = `/friend`;
@@ -25,7 +24,7 @@ export function insertFriendApi({ query }) {
   const url = `/friend/`;
   return api.post({
     url,
-    query,
+    query
   });
 }
 
@@ -33,7 +32,7 @@ export function updateFriendApi({ id, query }) {
   const url = `/friend/${id}`;
   return api.put({
     url,
-    query,
+    query
   });
 }
 

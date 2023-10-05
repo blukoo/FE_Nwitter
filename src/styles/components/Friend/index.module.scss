@@ -1,0 +1,13 @@
+.friend_wrap {
+  border: 2px solid #000;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  .friend_inner_wrap{
+    flex-grow: 1;
+  }
+  .btn_wrap {
+    flex-basis: 20%;
+  }
+}
