@@ -1,9 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useGet from "@/hooks/useGet";
 import {
   getFriendApi,
   getRequestFriendApi,
   getReplyFriendApi,
+  findUserApi,
   insertFriendApi,
   updateFriendApi,
   deleteFriendApi
@@ -12,7 +13,11 @@ import Friend from "@/components/Friend";
 import Button from "@/components/Button";
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
+import Input from "@/components/Input";
+import useDebounce from "@/hooks/useDebounce";
+
 export default function Friends() {
+  const [findUser, setFindUser] = useState("");
   const { setPopupInfo } = UseModalPopupContext();
   let userInfo = JSON.parse(
     localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
@@ -29,6 +34,10 @@ export default function Friends() {
   const { data: replyDriendList } = useGet({
     queryKey: ["ReplyFriend"],
     queryFn: async () => await getReplyFriendApi({ id: userInfo?.id })
+  });
+  const { data: findUserList, refetch: findUserListFetch } = useGet({
+    queryKey: ["FindUserList"],
+    queryFn: async () => await findUserApi({ nickname: findUser })
   });
   const { mutateAsync: insertFriendMutate, data: insertFriendRes } = usePost({
     queryKey: ["Friend", "RequestFriend", "ReplyFriend"],
@@ -73,12 +82,42 @@ export default function Friends() {
     });
     return;
   }, []);
+  const onFindUser = e => {
+    console.log(e.target, e, e.target.value, "e");
+    setFindUser(e.target.value);
+  };
+  // useEffect(() => {
+  // }, [findUser]);
+  const debounce = useDebounce(
+    () => {
+      findUserListFetch();
+      // alert("패치");
+    },
+    3000,
+    [findUser]
+  );
   return (
     <div>
       <div>
         <div>
-          <div>친구 검색</div>
-          <div></div>
+          <div>유저 검색</div>
+          <div>
+            <Input
+              onInput={onFindUser}
+              defaultValue={findUser}
+            />
+          </div>
+          <div>
+            {findUserList
+              .filter(user => user.id !== userInfo?.id)
+              .map((user, idx) => (
+                <li key={idx}>
+                  <Friend user={user}>
+                    <Button onClick={() => onDeleteFriend(user)}>삭제</Button>
+                  </Friend>
+                </li>
+              ))}
+          </div>
         </div>
       </div>
       <div>

@@ -20,6 +20,13 @@ export function getReplyFriendApi({ id }: { id: string }) {
     query: { id }
   });
 }
+export function findUserApi({ nickname }: { nickname: string }) {
+  const url = `/users/find_user_by_nickname`;
+  return api.get({
+    url,
+    query: { nickname }
+  });
+}
 export function insertFriendApi({ query }) {
   const url = `/friend/`;
   return api.post({
