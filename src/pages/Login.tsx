@@ -188,14 +188,14 @@ export default function Login() {
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>아이디</p>
             <p className={styled.login_value_item}>
-              <Input value={id} onChange={onIdChange} onKeyUp={onEnterLogin} />
+              <Input defaultValue={id} onChange={onIdChange} onKeyUp={onEnterLogin} />
             </p>
           </li>
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>비밀번호</p>
             <p className={styled.login_value_item}>
               <Input
-                value={password}
+                defaultValue={password}
                 onChange={onPasswordChange}
                 onKeyUp={onEnterLogin}
               />

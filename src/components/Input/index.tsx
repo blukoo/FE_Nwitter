@@ -12,9 +12,11 @@ import {
 import "@/styles/components/Input/index.scss";
 export type propsType = {
   value?: string | boolean | number;
+  defaultValue?: string | number;
   id?: string;
   onChange?: ChangeEventHandler;
   onKeyUp?: KeyboardEventHandler;
+  onKeyPress?: KeyboardEventHandler;
   onInput?: (e: FormEvent, ...arg: any) => void;
   style?: any;
   wrapperStyle?: any;
@@ -23,18 +25,23 @@ export type propsType = {
   label?: string;
   className?: string;
   name?: string;
-  multiple?:boolean
-  accept?:string
+  multiple?: boolean;
+  accept?: string;
 };
 
 const Input = forwardRef(
-  (props: propsType, ref: RefObject<HTMLInputElement>|LegacyRef<HTMLTextAreaElement>) => {
+  (
+    props: propsType,
+    ref: RefObject<HTMLInputElement> | LegacyRef<HTMLTextAreaElement>
+  ) => {
     //props
     const {
-      value = "",
+      value = false,
+      defaultValue = "",
       id = "",
       onChange,
       onKeyUp,
+      onKeyPress,
       onInput,
       style,
       wrapperStyle,
@@ -56,17 +63,19 @@ const Input = forwardRef(
           <input
             id={id}
             // @ts-ignore
-            value={value}
+            // value={value}
+            defaultValue={defaultValue}
             onChange={onChange}
             onInput={onInput}
             onKeyUp={onKeyUp}
+            onKeyPress={onKeyPress}
             style={style}
             type={type}
             placeholder={placeholder}
             ref={ref as RefObject<HTMLInputElement>}
             className={className}
             name={name}
-            multiple={multiple?true:false}
+            multiple={multiple ? true : false}
             accept={accept}
           />
         ) : (
@@ -77,8 +86,9 @@ const Input = forwardRef(
             onChange={onChange}
             onInput={onInput}
             onKeyUp={onKeyUp}
+            onKeyPress={onKeyPress}
             style={style}
-            type={type}
+            // type={type}
             placeholder={placeholder}
             ref={ref as LegacyRef<HTMLTextAreaElement>}
             className={className}
