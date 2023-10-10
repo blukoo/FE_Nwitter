@@ -15,6 +15,7 @@ import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import Input from "@/components/Input";
 import useDebounce from "@/hooks/useDebounce";
+import { UseUtilsContext } from "@/contexts/UtilsContext";
 
 export default function Friends() {
   const [findUser, setFindUser] = useState("");
@@ -23,6 +24,7 @@ export default function Friends() {
     localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
   );
 
+  const { socketClient } = UseUtilsContext();
   const { data: friendList, refetch: friendFetch } = useGet({
     queryKey: ["Friend"],
     queryFn: async () => await getFriendApi({ id: userInfo?.id })
@@ -107,7 +109,12 @@ export default function Friends() {
                 setPopupInfo(e => {
                   return { ...e, visible: false };
                 });
+
                 allRefresh();
+
+                socketClient.io.emit("changeFriend", a => {
+                  console.log("소켓");
+                });
               } catch (e) {
                 console.log(e, "error");
               }
@@ -125,8 +132,13 @@ export default function Friends() {
       };
     });
   }, []);
-  // useEffect(() => {
-  // }, [findUser]);
+  useEffect(() => {
+    
+    socketClient.io.on("changedFriend", () => {
+      alert("ss")
+      allRefresh();
+    });
+  }, []);
   const debounce = useDebounce(
     () => {
       findUserListFetch();
