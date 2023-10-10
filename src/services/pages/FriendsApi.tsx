@@ -21,17 +21,17 @@ export function getReplyFriendApi({ id }: { id: string }) {
   });
 }
 export function findUserApi({ nickname }: { nickname: string }) {
-  const url = `/users/find_user_by_nickname`;
+  const url = `/friend/find_user_by_nickname`;
   return api.get({
     url,
     query: { nickname }
   });
 }
-export function insertFriendApi({ query }) {
+export function insertFriendApi({ requestFriendId, replyFriendId }) {
   const url = `/friend/`;
   return api.post({
     url,
-    query
+    query: { requestFriendId, replyFriendId }
   });
 }
 

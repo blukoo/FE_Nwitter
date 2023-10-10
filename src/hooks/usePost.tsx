@@ -41,7 +41,7 @@ export default function usePost({
         });
         console.log(res, a, d, "데잍터");
         await queryClient.invalidateQueries(queryKey);
-        throw Error(res.message);
+        throw Error(res?.message);
       }
     }
   );

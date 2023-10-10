@@ -23,15 +23,15 @@ export default function Friends() {
     localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
   );
 
-  const { data: friendList } = useGet({
+  const { data: friendList, refetch: friendFetch } = useGet({
     queryKey: ["Friend"],
     queryFn: async () => await getFriendApi({ id: userInfo?.id })
   });
-  const { data: requestFriendList } = useGet({
+  const { data: requestFriendList, refetch: requestFriendFetch } = useGet({
     queryKey: ["RequestFriend"],
     queryFn: async () => await getRequestFriendApi({ id: userInfo?.id })
   });
-  const { data: replyDriendList } = useGet({
+  const { data: replyDriendList, refetch: replyDriendFetch } = useGet({
     queryKey: ["ReplyFriend"],
     queryFn: async () => await getReplyFriendApi({ id: userInfo?.id })
   });
@@ -52,21 +52,65 @@ export default function Friends() {
     queryKey: ["Friend"],
     queryFn: deleteFriendApi
   });
+  const allRefresh = () => {
+    friendFetch();
+    requestFriendFetch();
+    replyDriendFetch();
+    findUserListFetch();
+  };
   const onDeleteFriend = useCallback(async friend => {
     console.log(friend, "friend");
+    saveData(
+      async () => await deleteFriendMutate({ id: friend.id }),
+      "취소하시겠습니가까"
+    );
+    return;
+  }, []);
+  const onRequestFriend = useCallback(async replyFriend => {
+    console.log(replyFriend, "friend");
+    saveData(
+      async () =>
+        await insertFriendMutate({
+          requestFriendId: userInfo.id,
+          replyFriendId: replyFriend.id
+        }),
+      "요청하시겠습니니까"
+    );
+    return;
+  }, []);
+
+  const onReplyFriend = useCallback(async friend => {
+    console.log(friend, "friend");
+    saveData(
+      async () =>
+        await updateFriendMutate({ id: friend.id, query: { isFriend: true } }),
+      "수락하시겠습니가까"
+    );
+    return;
+  }, []);
+  const onFindUser = e => {
+    console.log(e.target, e, e.target.value, "e");
+    setFindUser(e.target.value);
+  };
+  const saveData = useCallback((func, message) => {
     setPopupInfo(e => {
       return {
         ...e,
         visible: true,
-        content: "취소하시겠습니가까",
+        content: message,
         btnList: [
           {
             word: "확인",
             func: async () => {
-              await deleteFriendMutate({ id: friend.id });
-              setPopupInfo(e => {
-                return { ...e, visible: false };
-              });
+              try {
+                await func();
+                setPopupInfo(e => {
+                  return { ...e, visible: false };
+                });
+                allRefresh();
+              } catch (e) {
+                console.log(e, "error");
+              }
             }
           },
           {
@@ -80,12 +124,7 @@ export default function Friends() {
         ]
       };
     });
-    return;
   }, []);
-  const onFindUser = e => {
-    console.log(e.target, e, e.target.value, "e");
-    setFindUser(e.target.value);
-  };
   // useEffect(() => {
   // }, [findUser]);
   const debounce = useDebounce(
@@ -102,10 +141,7 @@ export default function Friends() {
         <div>
           <div>유저 검색</div>
           <div>
-            <Input
-              onInput={onFindUser}
-              defaultValue={findUser}
-            />
+            <Input onInput={onFindUser} defaultValue={findUser} />
           </div>
           <div>
             {findUserList
@@ -113,7 +149,7 @@ export default function Friends() {
               .map((user, idx) => (
                 <li key={idx}>
                   <Friend user={user}>
-                    <Button onClick={() => onDeleteFriend(user)}>삭제</Button>
+                    <Button onClick={() => onRequestFriend(user)}>요청</Button>
                   </Friend>
                 </li>
               ))}
@@ -138,7 +174,7 @@ export default function Friends() {
           {requestFriendList.map((friend, idx) => (
             <li key={idx}>
               <Friend friend={friend}>
-                <Button>수락</Button>
+                <Button onClick={() => onDeleteFriend(friend)}>삭제</Button>
               </Friend>
             </li>
           ))}
@@ -150,7 +186,8 @@ export default function Friends() {
           {replyDriendList.map((friend, idx) => (
             <li key={idx}>
               <Friend friend={friend}>
-                <Button>취소</Button>
+                <Button onClick={() => onReplyFriend(friend)}>수락</Button>
+                <Button onClick={() => onDeleteFriend(friend)}>거절</Button>
               </Friend>
             </li>
           ))}
