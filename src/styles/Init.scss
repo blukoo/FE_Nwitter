@@ -112,7 +112,7 @@ nav,
 section {
   display: block;
 }
-.ReactQueryDevtools{
+.ReactQueryDevtools {
   display: none;
 }
 body {
@@ -120,21 +120,32 @@ body {
   height: 100%;
   overflow: hidden;
 }
-ol,
-ul {
-  list-style: none;
-}
 blockquote,
 q {
   quotes: none;
 }
-textarea:focus, input:focus{ border: none; outline: none;}
+textarea:focus,
+input:focus {
+  border: none;
+  outline: none;
+}
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
   content: "";
   content: none;
+}
+
+ol li {
+  list-style-type: none;
+  list-style: none;
+}
+ol,
+ul,
+li {
+  margin: 0;
+  padding: 0;
 }
 table {
   border-collapse: collapse;
@@ -157,4 +168,9 @@ a:active {
 }
 button {
   border: none;
+}
+ol,
+ul,
+li {
+  list-style: none;
 }
