@@ -10,7 +10,7 @@ import {
   findKakaoUserApi,
   signupApi,
   kakaoSignupApi
-} from "@/services/pages/Login";
+} from "@/services/pages/LoginApi";
 import usePost from "@/hooks/usePost";
 import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import { UseAuthContext } from "@/contexts/AuthContext";
