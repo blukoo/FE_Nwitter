@@ -75,6 +75,13 @@ export default function TableComponentTest() {
     socketClient.io.on("getTweets", () => {
       refetch();
     });
+    return ()=>{
+      socketClient.io.disconnect()
+      socketClient.io.off()
+    }
+  }, [socketClient]);
+  useEffect(() => {
+    socketClient.onConnect()
   }, []);
   const colData = useMemo(() => {
     return [

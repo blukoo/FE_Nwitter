@@ -19,7 +19,9 @@ export type ColumnsType = {
   width: string | number;
 };
 export type UserInfoType = {
+  id: number;
   userId: string;
+  nickname: string;
   password: string;
   name: string;
   url: string;

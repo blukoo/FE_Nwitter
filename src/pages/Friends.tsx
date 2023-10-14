@@ -16,9 +16,15 @@ import { UseModalPopupContext } from "@/contexts/ModalPopupContext";
 import Input from "@/components/Input";
 import useDebounce from "@/hooks/useDebounce";
 import { UseUtilsContext } from "@/contexts/UtilsContext";
-
+import ModalPortal from "@/components/Modal/ModalPortal";
+import Modal from "@/components/Modal";
+import useModal from "@/hooks/useModal";
+import Chat from "./Chat";
+import { UserInfoType } from "@/types/types";
 export default function Friends() {
+  const { id, showModal, closeModal } = useModal();
   const [findUser, setFindUser] = useState("");
+  const [targetFriend, setTargetFriend] = useState<UserInfoType | null>(null);
   const { setPopupInfo } = UseModalPopupContext();
   let userInfo = JSON.parse(
     localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
@@ -64,7 +70,7 @@ export default function Friends() {
     console.log(friend, "friend");
     saveData(
       async () => await deleteFriendMutate({ id: friend.id }),
-      "취소하시겠습니가까"
+      "취소하시겠습니까"
     );
     return;
   }, []);
@@ -76,7 +82,7 @@ export default function Friends() {
           requestFriendId: userInfo.id,
           replyFriendId: replyFriend.id
         }),
-      "요청하시겠습니니까"
+      "요청하시겠습니까"
     );
     return;
   }, []);
@@ -86,12 +92,11 @@ export default function Friends() {
     saveData(
       async () =>
         await updateFriendMutate({ id: friend.id, query: { isFriend: true } }),
-      "수락하시겠습니가까"
+      "수락하시겠습니까"
     );
     return;
   }, []);
   const onFindUser = e => {
-    console.log(e.target, e, e.target.value, "e");
     setFindUser(e.target.value);
   };
   const saveData = useCallback((func, message) => {
@@ -132,13 +137,26 @@ export default function Friends() {
       };
     });
   }, []);
+  const [socket, setSocket]=useState(null)
+  const showChatModal = useCallback(friend => {
+    setTargetFriend(v => {
+      return { ...v, ...friend };
+    });
+    showModal();
+  }, []);
   useEffect(() => {
-    
+    socketClient.onConnect()
+  }, []);
+  
+  useEffect(() => {
     socketClient.io.on("changedFriend", () => {
-      alert("ss")
       allRefresh();
     });
-  }, []);
+    return ()=>{
+      socketClient.io.disconnect()
+      socketClient.io.off()
+    }
+  }, [socketClient]);
   const debounce = useDebounce(
     () => {
       findUserListFetch();
@@ -174,6 +192,7 @@ export default function Friends() {
           {friendList.map((friend, idx) => (
             <li key={idx}>
               <Friend friend={friend}>
+                <Button onClick={() => showChatModal(friend)}>대화</Button>
                 <Button onClick={() => onDeleteFriend(friend)}>삭제</Button>
               </Friend>
             </li>
@@ -205,6 +224,12 @@ export default function Friends() {
           ))}
         </ul>
       </div>
+
+      <ModalPortal>
+        <Modal id={id}>
+          <Chat friendInfo={targetFriend} myInfo={userInfo}  />
+        </Modal>
+      </ModalPortal>
     </div>
   );
 }
