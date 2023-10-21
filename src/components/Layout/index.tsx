@@ -36,7 +36,7 @@ export default function Layout() {
     }
   }, [localStorage.getItem("token"), sessionStorage.getItem("token")]);
   useEffect(()=>{
-    socketClient.onConnect()
+    // socketClient.onConnect()
   },[])
   return (
     <>
