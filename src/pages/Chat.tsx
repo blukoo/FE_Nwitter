@@ -1,36 +1,68 @@
 import { UnknownObj, UserInfoType } from "@/types/types";
 import useGet from "@/hooks/useGet";
-import { getChatApi } from "@/services/pages/ChatApi";
+import usePost from "@/hooks/usePost";
+import { getChatApi, createChatApi } from "@/services/pages/ChatApi";
 import { UseUtilsContext } from "@/contexts/UtilsContext";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 function Chat({
-  friendInfo,
+  friendShipInfo,
   myInfo
 }: {
-  friendInfo: UnknownObj;
+  friendShipInfo: UnknownObj;
   myInfo: UserInfoType;
 }) {
   let userInfo = JSON.parse(
     localStorage.getItem("userInfo") || sessionStorage.getItem("userInfo")
   );
-  const friendInfoData = useMemo(() => {
-    if(friendInfo){
-      return friendInfo.requestFriend.id === myInfo.id?friendInfo.requestFriend:friendInfo.replyfriend
+  const friendInfo = useMemo(() => {
+    if (friendShipInfo) {
+      return friendShipInfo.requestFriend.id !== myInfo.id
+        ? friendShipInfo.requestFriend
+        : friendShipInfo.replyFriend;
     }
-  }, [friendInfo]);
+  }, [friendShipInfo]);
   const { socketClient } = UseUtilsContext();
-  const { data: friendList, refetch: friendFetch } = useGet({
-    queryKey: ["Friend"],
+  const {
+    data: chatData,
+    refetch: chatFetch
+  }: { data: UnknownObj<any>; refetch: any } = useGet({
+    queryKey: ["Chat"],
     queryFn: async () =>
-      await getChatApi({ friendId: friendInfo.id, myId: myInfo.id })
+      await getChatApi({
+        friendShipId: friendShipInfo.id,
+        friendId: friendInfo.id
+      })
   });
+
+  const { mutateAsync: createChatMutate, data: createChatRes } = usePost({
+    queryKey: ["Tweets"],
+    queryFn: createChatApi
+  });
+  useEffect(() => {
+    console.log(chatData, "chatData");
+    const handleChat = async () => {
+      try {
+        if (chatData) {
+          if (!chatData.id) {
+            let res = await createChatMutate({ friendId: friendInfo.id });
+            console.log(res, "res", chatData);
+            chatFetch();
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    handleChat();
+  }, [chatData]);
   return (
     <>
       <ul>
         <li>{JSON.stringify(myInfo)}</li>
         <br /> <br /> <br />
-        <li>{JSON.stringify(friendInfoData)}</li>
+        <li>{JSON.stringify(friendInfo)}</li>
+        <li>{JSON.stringify(chatData)}</li>
       </ul>
     </>
   );
