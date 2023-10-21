@@ -65,7 +65,7 @@ export default function TableComponentTest() {
   useEffect(() => {
     console.log(list, "list");
     setRowData(v => {
-      if (typeof list === "object" && list.length) {
+      if (Array.isArray(list)  && list.length) {
         return [...list];
       }
       return [];
