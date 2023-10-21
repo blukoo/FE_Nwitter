@@ -1,3 +1,4 @@
+import { UnknownObj } from "@/types/types";
 import { QueryFunction, useQuery } from "@tanstack/react-query";
 
 export default function useGet({
@@ -15,7 +16,7 @@ export default function useGet({
   }: {
     isLoading: boolean;
     error: any;
-    data: any[];
+    data: any[]|UnknownObj;
     refetch :any
   } = useQuery(queryKey, queryFn, {
     suspense: true,
