@@ -8,8 +8,18 @@ export function getChatApi({ friendShipId, friendId }) {
   });
 }
 export function createChatApi({ friendId }) {
-  let _url = `${url}/${friendId}`;
+  let _url = `${url}`;
   return api.post({
-    url: _url
+    url: _url,
+    query: {
+      friendId
+    }
+  });
+}
+export function updateChatApi({ chatId, query }) {
+  let _url = `${url}/${chatId}`;
+  return api.put({
+    url: _url,
+    query
   });
 }

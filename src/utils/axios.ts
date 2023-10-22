@@ -14,7 +14,7 @@ axios.defaults.headers.common["Content-Type"] =
 let token = localStorage.getItem("token")
   ? localStorage.getItem("token")
   : sessionStorage.getItem("token");
-console.log(token,"토큰")
+console.log(token, "토큰");
 let Authorization = "Bearer " + token;
 axios.defaults.headers.common["Authorization"] = Authorization;
 const instance = axios.create({
@@ -66,11 +66,11 @@ const api = {
     headers
   }: {
     url: string;
-    query: any[] | UnknownObj | undefined;
+    query?: any[] | UnknownObj;
     headers?: any;
   }) => {
     const params = query;
-    return instance.post(url, params,{headers} );
+    return instance.post(url, params, { headers });
   },
   delete: ({
     url,
@@ -94,7 +94,7 @@ const api = {
     headers?: any;
   }) => {
     const params = query;
-    return instance.put(url, params, {headers} );
+    return instance.put(url, params, { headers });
   }
 };
 export default api;

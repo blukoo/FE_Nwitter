@@ -12,6 +12,9 @@ export default class Socket {
     this.io.on("connect_error", err => {
       console.log("socket error", err.message);
     });
+    this.io.on("disconnect", err => {
+      console.log("disconnect", err);
+    });
   }
   onConnect() {
     if (!this.io.connected) {

@@ -227,7 +227,7 @@ export default function Friends() {
 
       <ModalPortal>
         <Modal id={id}>
-          <Chat friendInfo={targetFriend} myInfo={userInfo}  />
+          <Chat friendShipInfo={targetFriend} myInfo={userInfo}  />
         </Modal>
       </ModalPortal>
     </div>
