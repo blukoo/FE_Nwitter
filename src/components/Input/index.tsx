@@ -1,5 +1,5 @@
 //react
-import {
+import React, {
   forwardRef,
   ChangeEventHandler,
   RefObject,
@@ -100,4 +100,4 @@ const Input = forwardRef(
   }
 );
 Input.displayName = "Input";
-export default Input;
+export default React.memo(Input);
