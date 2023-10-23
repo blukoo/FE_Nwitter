@@ -54,7 +54,6 @@ function Chat({
     if (!chatData.id) return [];
     return chatData.messageList;
   }, [chatData]);
-  const [isConnectUser, setIsConnectUser] = useState("부재중");
   useEffect(() => {
     console.log(chatData, "chatData");
     const handleChat = async () => {
@@ -73,32 +72,21 @@ function Chat({
   }, [chatData]);
 
   useEffect(() => {
-    
     socketClient.io.on();
-    socketClient.io.emit("enter_chat", {...chatData,userId:myInfo.id});
+    socketClient.io.emit("enter_chat", { ...chatData, userId: myInfo.id });
     socketClient.io.on("getChat", () => {
-      alert("getChat");
       chatFetch();
     });
     socketClient.io.on("welcome", sendData => {
-      alert("접속중");
-      console.log(sendData,"접속중")
-      setIsConnectUser("접속중");
     });
     socketClient.io.on("bye", sendData => {
-      alert("부재중");
-      console.log(sendData,"부재중")
-      setIsConnectUser("부재중");
     });
     return () => {
-      socketClient.io.emit("out_chat", {...chatData,userId:myInfo.id});
+      socketClient.io.emit("out_chat", { ...chatData, userId: myInfo.id });
       socketClient.io.off();
     };
-    return () => {
-    };
   }, []);
-  useEffect(() => {
-  }, [socketClient]);
+  useEffect(() => {}, [socketClient]);
   const handleWriteMessage = useCallback(e => {
     setWritingMessage(e.target.value);
   }, []);
@@ -119,23 +107,23 @@ function Chat({
         {messageList.map((chat, idx) => (
           <li
             className={`${styled.chat_item_wrap} ${
-              chat.id === myInfo.id
-                ? styled.my_message_left
-                : styled.my_message_right
+              chat.id === myInfo.id ? styled.message_left : styled.message_right
             }`}
             key={idx}
           >
             <div className={styled.chat_item}>
-              {isConnectUser}인
-              <span className={styled.chat_nickname}>{chat.nickname}???</span>
-              <span className={styled.chat_message}>{chat.message}!!!</span>
+              <span className={styled.chat_nickname}>{chat.nickname}</span>
+              <span className={styled.chat_message}>{chat.message}</span>
             </div>
           </li>
         ))}
       </ul>
       <ul className={styled.write_chat_item_wrap}>
         <li>
-          {myInfo.nickname} <Input onInput={handleWriteMessage} />
+          <Input
+            onInput={handleWriteMessage}
+            wrapperClassName={styled.write_chat_input_wrap}
+          />
           <span>
             <Button onClick={submitMessaage}>보내기</Button>
           </span>

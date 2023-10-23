@@ -1,4 +1,32 @@
-.chat_wrap{
+.chat_wrap {
   width: 150vw;
-height: 300vh;
+  height: 300vh;
+  padding: 2vh 1vw;
+  .message_chat_wrap {
+    .chat_item_wrap {
+      display: flex;
+      .chat_nickname {
+        font-size: 1.2em;
+      }
+      .chat_message {
+        font-size: 1em;
+      }
+      &.message_left {
+        justify-content: left;
+      }
+      &.message_right {
+        justify-content: right;
+      }
+    }
+  }
+  .write_chat_item_wrap {
+    .write_chat_input_wrap {
+      width: 100%;
+      display: block;
+      padding-bottom: 1vh;
+      input {
+        width: 100%;
+      }
+    }
+  }
 }

@@ -154,6 +154,11 @@ table {
 input,
 button {
   outline: none;
+  border: none;
+}
+input:focus,
+button:focus {
+  outline: none;
 }
 /* a-style */
 a {
