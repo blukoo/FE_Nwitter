@@ -33,17 +33,9 @@ export default function Navbar() {
         <div className={styles.link_item}>
           <NavLink
             className={isActive => (isActive ? "active" : "")}
-            to="/table"
+            to="/chat"
           >
-            table
-          </NavLink>
-        </div>
-        <div className={styles.link_item}>
-          <NavLink
-            className={isActive => (isActive ? "active" : "")}
-            to="/needLogin"
-          >
-            needLogin
+            chat
           </NavLink>
         </div>
       </div>

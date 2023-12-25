@@ -23,10 +23,11 @@ export default function SearchHeader() {
             type="text"
             placeholder="search..."
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={
+              e => setText(e.target.value)}
           />
         </form>
-        <button>
+      <button>
           <BsSearch></BsSearch>
         </button>
       </header>

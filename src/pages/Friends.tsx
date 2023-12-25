@@ -137,7 +137,6 @@ export default function Friends() {
       };
     });
   }, []);
-  const [socket, setSocket]=useState(null)
   const showChatModal = useCallback(friend => {
     setTargetFriend(v => {
       return { ...v, ...friend };
@@ -226,7 +225,7 @@ export default function Friends() {
       </div>
 
       <ModalPortal>
-        <Modal id={id}>
+        <Modal id={id} wrapStyle={{width:"80vw", minHeight:"80vh"}}>
           <Chat friendShipInfo={targetFriend} myInfo={userInfo}  />
         </Modal>
       </ModalPortal>

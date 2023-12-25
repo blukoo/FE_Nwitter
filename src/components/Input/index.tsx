@@ -20,6 +20,7 @@ export type propsType = {
   onInput?: (e: FormEvent, ...arg: any) => void;
   style?: any;
   wrapperStyle?: any;
+  wrapperClassName?: string;
   type?: string;
   placeholder?: string;
   label?: string;
@@ -49,13 +50,15 @@ const Input = forwardRef(
       placeholder,
       label,
       className,
+      wrapperClassName,
       name,
       multiple,
       accept
     } = props;
     return (
       <span
-        className="input_wrap"
+
+        className={"input_wrap "+wrapperClassName}
         style={{ display: "inline-block", ...wrapperStyle }}
       >
         {props.label && <label htmlFor={id}>{label}</label>}

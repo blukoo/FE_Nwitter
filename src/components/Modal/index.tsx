@@ -4,7 +4,7 @@ import styles from "@/styles/components/ModalPopup/Modal.module.scss";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function Modal(props) {
-  const { id, children } = props;
+  const { id, children, wrapStyle }: { id; children; wrapStyle? } = props;
   const { modalInfo, setModalInfo } = UseModalPopupContext();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Modal(props) {
           // key={id}
           className={styles.modal_wrap}
         >
-          <div className={styles.modal_inner_wrap}>
+          <div className={styles.modal_inner_wrap} style={wrapStyle}>
             <div className={styles.type_wrap}>
               {/* <div className={styles.type}>{modalState.type}</div> */}
               <p onClick={onClose}>

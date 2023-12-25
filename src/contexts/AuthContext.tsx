@@ -10,17 +10,18 @@ interface AuthType {
 }
 const AuthContext = createContext<AuthType>({
   userInfo: {
-    
+    id: 0,
     userId: "",
     password: "",
+    nickname: "",
     name: "",
     url: "",
     email: ""
   }, //화원정보
   setUserInfo: () => {},
   // isLogin: false, //로딩 여부
-  
-  isLogin: !!(localStorage.getItem("token")||sessionStorage.getItem("token")), //로딩 여부
+
+  isLogin: !!(localStorage.getItem("token") || sessionStorage.getItem("token")), //로딩 여부
   setIsLogin: () => {},
   isAutoLogin: false, //자동로그인
   setIsAutoLogin: () => {}

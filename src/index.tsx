@@ -16,6 +16,7 @@ import TableTest from "@/pages/TableTest";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TableComponentTest from "./pages/TableComponentTest";
 import NeedLoginPage from "./pages/NeedLoginPage"; //description
+import Chat from "./pages/Chat";
 
 // import Button from "@/description/Button/";
 // import Input from "@/description/Input";

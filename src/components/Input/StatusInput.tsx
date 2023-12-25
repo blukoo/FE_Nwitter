@@ -3,6 +3,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import Input from "@/components/Input";
 import "@/styles/components/Input/StatusInput.scss";
 import { UseUtilsContext } from "@/contexts/UtilsContext";
+import { CloseCircleOutlined } from "@ant-design/icons";
 export type propsType = {
   value: string | boolean | number;
   id?: string;
@@ -58,7 +59,7 @@ export default function StatusInput(props) {
         />
         {target === InputRef?.current && (
           <span className="clear_value" onClick={onClear}>
-            <AiFillCloseCircle />
+            <CloseCircleOutlined />
           </span>
         )}
       </div>
