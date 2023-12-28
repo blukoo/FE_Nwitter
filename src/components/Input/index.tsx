@@ -6,17 +6,27 @@ import React, {
   KeyboardEventHandler,
   FormEventHandler,
   FormEvent,
-  LegacyRef
+  LegacyRef,
+  ChangeEvent,
+  KeyboardEvent
 } from "react";
 //style
 import "@/styles/components/Input/index.scss";
+type CustomChangeEventHandler<T = Element, U = any | undefined> = (
+  event: ChangeEvent<T>,
+  additionalParam?: U
+) => void;
+type CustomKeyboardEventHandler<T = Element, U = any | undefined> = (
+  event: KeyboardEvent<T>,
+  additionalParam?: U
+) => void;
 export type propsType = {
   value?: string | boolean | number;
   defaultValue?: string | number;
   id?: string;
-  onChange?: ChangeEventHandler;
-  onKeyUp?: KeyboardEventHandler;
-  onKeyPress?: KeyboardEventHandler;
+  onChange?: CustomChangeEventHandler;
+  onKeyUp?: CustomKeyboardEventHandler;
+  onKeyPress?: CustomKeyboardEventHandler;
   onInput?: (e: FormEvent, ...arg: any) => void;
   style?: any;
   wrapperStyle?: any;
@@ -57,8 +67,7 @@ const Input = forwardRef(
     } = props;
     return (
       <span
-
-        className={"input_wrap "+wrapperClassName}
+        className={"input_wrap " + wrapperClassName}
         style={{ display: "inline-block", ...wrapperStyle }}
       >
         {props.label && <label htmlFor={id}>{label}</label>}
@@ -66,8 +75,8 @@ const Input = forwardRef(
           <input
             id={id}
             // @ts-ignore
-            // value={value}
-            defaultValue={defaultValue}
+            value={value}
+            // defaultValue={defaultValue}
             onChange={onChange}
             onInput={onInput}
             onKeyUp={onKeyUp}
