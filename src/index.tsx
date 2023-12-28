@@ -11,6 +11,7 @@ import {
 import NotFounds from "@/pages/NotFounds";
 import Home from "@/pages/Home";
 import Login from "./pages/Login";
+import Join from "./pages/Join";
 import Friend from "@/pages/Friends";
 import TableTest from "@/pages/TableTest";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         element: <Login />,
         path: "login"
+      },
+      {
+        element: <Join />,
+        path: "join"
       },
       {
         element: (
