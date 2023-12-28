@@ -1,17 +1,14 @@
-.login_wrap {
+.join_wrap {
   border: 1px solid red;
   display: flex;
-  .login_inner_wrap {
+  .join_inner_wrap {
     width: 100%;
-    .login_item {
+    .join_item {
       width: 100%;
-      min-height: 7vh;
+      height: 7vh;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      .login_btn_wrap{
-        padding-bottom: 1vh;
-      }
       p {
         flex: 1;
       }
@@ -19,7 +16,7 @@
         text-align: center;
         padding: 2vw;
       }
-      p.login_value_item {
+      p.join_value_item {
         width: 70%;
       }
     }
