@@ -170,7 +170,7 @@ export default function Friends() {
         <div>
           <div>유저 검색</div>
           <div>
-            <Input onInput={onFindUser} defaultValue={findUser} />
+            <Input onInput={onFindUser} value={findUser} />
           </div>
           <div>
             {findUserList

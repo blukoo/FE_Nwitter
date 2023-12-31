@@ -122,6 +122,7 @@ function Chat({
         <li>
           <Input
             onInput={handleWriteMessage}
+            value={writingMessage}
             wrapperClassName={styled.write_chat_input_wrap}
           />
           <span>
