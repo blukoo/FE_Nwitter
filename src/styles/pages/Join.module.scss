@@ -5,7 +5,6 @@
     width: 100%;
     .join_item {
       width: 100%;
-      height: 7vh;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -16,8 +15,13 @@
         text-align: center;
         padding: 2vw;
       }
-      p.join_value_item {
+      display: flex;
+      p.join_value_item_wrap {
+        display: flex;
         width: 70%;
+        .join_value_item {
+          width: 100%;
+        }
       }
     }
   }

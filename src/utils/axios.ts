@@ -1,5 +1,5 @@
 import type { UnknownObj } from "@/types/types";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const baseApiUrl = process.env.REACT_APP_API_BASE_URL;
 // 리소스 접근 허용
@@ -47,12 +47,12 @@ instance.interceptors.response.use(
     return Promise.reject(error.response.data);
   }
 );
-const api = {
+const api:any = {
   get: async ({ url, query }: any) => {
     console.log(process.env, "process.env");
     const method = "get";
     const params = query;
-    const response = await instance({
+    const response:AxiosResponse<any> = await instance({
       baseURL: baseApiUrl,
       url,
       method,

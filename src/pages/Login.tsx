@@ -105,9 +105,17 @@ export default function Login() {
   };
   const onLogin = async e => {
     if (!validateLogin()) return;
-    loginMutate({ userId: id, password }).then(res =>
-      setLogin(res, isAutoLogin)
-    );
+    try {
+      let res = await loginMutate({ userId: id, password });
+
+      setLogin(res, isAutoLogin);
+    } catch (e) {
+      setPopup(e.message);
+    }
+  };
+  const onGoJoin = () => {
+    alert();
+    navigate("/Join");
   };
   useEffect(() => {
     const paramsData = new URL(document.location.toString());
@@ -188,29 +196,29 @@ export default function Login() {
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>아이디</p>
             <p className={styled.login_value_item}>
-              <Input defaultValue={id} onChange={onIdChange} onKeyUp={onEnterLogin} />
+              <Input value={id} onChange={onIdChange} onKeyUp={onEnterLogin} />
             </p>
           </li>
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>비밀번호</p>
             <p className={styled.login_value_item}>
               <Input
-                defaultValue={password}
+                value={password}
                 onChange={onPasswordChange}
                 onKeyUp={onEnterLogin}
               />
             </p>
           </li>
 
-          <li className={styled.login_item}>
+          <li className={styled.login_item + " " + styled.login_btn_wrap}>
             <p className={styled.login_value_item}>
               <Button onClick={onLogin}>로그인</Button>
               <KakaoLoginButton isAutoLogin={isAutoLogin}></KakaoLoginButton>
+              <Button onClick={onGoJoin}>회원가입</Button>
             </p>
           </li>
           <li className={styled.login_item}>
             <p className={styled.login_label_item}>자동로그인 </p>
-            {JSON.stringify(isAutoLogin) + "Sss"}
             <p className={styled.login_value_item}>
               <CheckBox
                 value={isAutoLogin}
