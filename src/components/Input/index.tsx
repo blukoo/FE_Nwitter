@@ -47,7 +47,6 @@ const Input = forwardRef(
   ) => {
     //props
     const {
-      value = false,
       defaultValue = "",
       id = "",
       onChange,
@@ -57,6 +56,7 @@ const Input = forwardRef(
       style,
       wrapperStyle,
       type = "text",
+      value = type==="checkbox"?false:"",
       placeholder,
       label,
       className,
