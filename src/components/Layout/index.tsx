@@ -20,7 +20,7 @@ export default function Layout() {
       localStorage.getItem("userInfo") ||
       sessionStorage.getItem("userInfo")
     ) {
-      const { userId, nickname, url, email } = JSON.parse(
+      const { id, userId, nickname, url, email } = JSON.parse(
         localStorage.getItem("userInfo") ?? sessionStorage.getItem("userInfo")
       );
       const token =
@@ -28,16 +28,16 @@ export default function Layout() {
       if (token) {
         setIsLogin(true);
         setUserInfo(e => {
-          return { userId, nickname, url, email };
+          return { id, userId, nickname, url, email };
         });
       }
     } else {
       setIsLogin(false);
     }
   }, [localStorage.getItem("token"), sessionStorage.getItem("token")]);
-  useEffect(()=>{
+  useEffect(() => {
     // socketClient.onConnect()
-  },[])
+  }, []);
   return (
     <>
       {/* get은 suspense로 확인가능 */}

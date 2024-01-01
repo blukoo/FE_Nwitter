@@ -98,16 +98,17 @@ export default function Login() {
   const onEnterLogin = async e => {
     if (e.code === "Enter" && isNotEmpty) {
       if (!validateLogin()) return;
-      loginMutate({ userId: id, password }).then(res =>
-        setLogin(res, isAutoLogin)
-      );
+      loginMutate({ userId: id, password }).then(res => {
+        console.log(res, "res");
+        return setLogin(res, isAutoLogin);
+      });
     }
   };
   const onLogin = async e => {
     if (!validateLogin()) return;
     try {
       let res = await loginMutate({ userId: id, password });
-
+      console.log(res, "res");
       setLogin(res, isAutoLogin);
     } catch (e) {
       setPopup(e.message);

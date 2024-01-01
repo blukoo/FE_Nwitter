@@ -3,6 +3,7 @@ import React, { ChangeEventHandler, FormEvent, useCallback } from "react";
 import styles from "@/styles/components/Cards/Card.module.scss";
 import Input from "@/components/Input/index";
 import Button from "@/components/Button/index";
+import { UseAuthContext } from "@/contexts/AuthContext";
 export default function Rows(props) {
   const {
     rowData,
@@ -19,15 +20,18 @@ export default function Rows(props) {
     onSaveList: (row: any) => void;
     onImageChange: (...arg: any) => void;
   } = props;
+  const { userInfo, setUserInfo, isLogin, setIsLogin } = UseAuthContext(); // 회원정보
 
   return (
     <div className={styles.card_wrap}>
       <div className={styles.top_wrap}>
         <div className={styles.nickname_wrap}>{rowData.nickname}</div>
-        <div className={styles.btn_wrap}>
-          <Button onClick={() => onDeleteList(rowData)}>삭제</Button>
-          <Button onClick={() => onSaveList(rowData)}>저장</Button>
-        </div>
+        {rowData.userId === userInfo.id ? (
+          <div className={styles.btn_wrap}>
+            {/* <Button onClick={() => onDeleteList(rowData)}>삭제</Button> */}
+            <Button onClick={() => onSaveList(rowData)}>저장</Button>
+          </div>
+        ) : null}
       </div>
       <div className={styles.content_wrap}>
         <Input

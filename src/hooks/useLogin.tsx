@@ -35,7 +35,7 @@ export default function useLogin({
     let { token, userId, nickname, url, email, id } = res;
     if (res?.token) {
       setUserInfo(e => {
-        return { userId, nickname, url, email };
+        return { id, userId, nickname, url, email };
       });
       setIsLogin(e => true);
       if (isAutoLogin) {
