@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/FE_Nwitter/static/css/main.730f4550.css",
+    "main.js": "/FE_Nwitter/static/js/main.2d7af788.js",
+    "static/media/NotoSans-ExtraLight.ttf": "/FE_Nwitter/static/media/NotoSans-ExtraLight.387c9cb8074a7257c4d3.ttf",
+    "static/media/NotoSans-Bold.ttf": "/FE_Nwitter/static/media/NotoSans-Bold.87ca550c455e71127ce2.ttf",
+    "static/media/NotoSans-Black.ttf": "/FE_Nwitter/static/media/NotoSans-Black.6d29d48137858eab7e51.ttf",
+    "static/media/NotoSans-Regular.ttf": "/FE_Nwitter/static/media/NotoSans-Regular.c6776e8228bee1ff1106.ttf",
+    "static/media/NotoSans-Medium.ttf": "/FE_Nwitter/static/media/NotoSans-Medium.93b8fac456d54c025376.ttf",
+    "index.html": "/FE_Nwitter/index.html",
+    "main.730f4550.css.map": "/FE_Nwitter/static/css/main.730f4550.css.map",
+    "main.2d7af788.js.map": "/FE_Nwitter/static/js/main.2d7af788.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.730f4550.css",
+    "static/js/main.2d7af788.js"
+  ]
+}
